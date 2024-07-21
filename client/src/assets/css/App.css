@@ -1,0 +1,49 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 300%;
+}
+
+.wrapper>div:nth-child(1){
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.wrapper>div:nth-child(1) a:link,
+.wrapper>div:nth-child(1) a:visited{
+  text-decoration: none;
+  color: black;
+  transition: color .3s linear;
+}
+
+.wrapper>div:nth-child(1) a:hover{
+  color:darksalmon;
+}
+
+.wrapper>div:nth-child(2){
+  margin-top: 1em;
+  width: 90%;
+}
+
+.wrapper .contentWrapper{
+  margin-top: 1em;
+}
+
+.postData, .todoData, .userData{
+  font-size: 32px;
+}
+
+.complete{
+  color:rgb(127, 189, 35)
+}
+
+.notComplete{
+  color:rgb(198, 1, 1);
+}
+
+.userData i{
+  font-style: italic;
+}
