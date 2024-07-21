@@ -6,12 +6,6 @@
   font-size: 300%;
 }
 
-.wrapper>div:nth-child(1){
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
 .wrapper>div:nth-child(1) a:link,
 .wrapper>div:nth-child(1) a:visited{
   text-decoration: none;
@@ -28,22 +22,110 @@
   width: 90%;
 }
 
-.wrapper .contentWrapper{
+.header{
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+  justify-content: space-around;
+}
+/* Book list */
+.book-header-wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%
+}
+
+.book-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%
+}
+
+.book-header h4:nth-child(1){
+  margin-right: 30%;
+}
+
+.add-book-btn {
+  margin-left: 1em;
+  width: 5em;
+  font-size: 37px;
+  background-color: rgb(12, 227, 4);
+  color: #fff;
+  border: none;
+  padding: 5px 0px;
+  transition: filter .3s linear;
+}
+
+.book-list{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-item{
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
   margin-top: 1em;
+  width: 100%;
 }
 
-.postData, .todoData, .userData{
-  font-size: 32px;
+.book-description{
+  display: flex;
+  flex-direction: row;
+  margin: .3em;
 }
 
-.complete{
-  color:rgb(127, 189, 35)
+.book-description h5:nth-child(1){
+  width: 43%;
+}
+.book-description h5:nth-child(2){
+  width: 8em;
+}
+.book-description h5:nth-child(3){
+  width: 5em;
 }
 
-.notComplete{
-  color:rgb(198, 1, 1);
+
+/* END */
+
+.book-btns{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-end;
 }
 
-.userData i{
-  font-style: italic;
+.book-btns > button{
+  margin: 0 .5em;
+}
+
+.toggle-read-btn {
+  font-size: 37px;
+  height: 2em;
+  width: fit-content;
+  background-color: #CC5520;
+  color: #fff;
+  border: none;
+  padding: 5px 7px;
+  transition: filter .3s linear;
+}
+
+.delete-btn {
+  font-size: 37px;
+  background-color: red;
+  color: #fff;
+  border: none;
+  width: fit-content;
+  padding: 5px 7px;
+  transition: filter .3s linear;
+}
+
+button:hover {
+  filter: opacity(.75)
 }

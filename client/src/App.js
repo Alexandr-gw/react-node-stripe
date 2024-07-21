@@ -53,7 +53,7 @@ const Root = () => {
 
     return (
         <>
-            <div>
+            <div className="header">
                 <Link to="/">Home</Link>
                 <Link to="/BooksList">Books</Link>
             </div>
