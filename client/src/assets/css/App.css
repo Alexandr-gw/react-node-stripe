@@ -7,36 +7,37 @@
 }
 
 .wrapper>div:nth-child(1) a:link,
-.wrapper>div:nth-child(1) a:visited{
+.wrapper>div:nth-child(1) a:visited {
   text-decoration: none;
   color: black;
   transition: color .3s linear;
 }
 
-.wrapper>div:nth-child(1) a:hover{
-  color:darksalmon;
+.wrapper>div:nth-child(1) a:hover {
+  color: darksalmon;
 }
 
-.wrapper>div:nth-child(2){
+.wrapper>div:nth-child(2) {
   margin-top: 1em;
   width: 90%;
 }
 
-.header{
+.header {
   display: flex;
   flex-direction: row;
   width: 30%;
   justify-content: space-around;
 }
+
 /* Book list */
-.book-header-wrapper{
+.book-header-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 100%
 }
 
-.book-header{
+.book-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -44,7 +45,7 @@
   width: 100%
 }
 
-.book-header h4:nth-child(1){
+.book-header h4:nth-child(1) {
   margin-right: 30%;
 }
 
@@ -59,7 +60,7 @@
   transition: filter .3s linear;
 }
 
-.book-list{
+.book-list {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -67,7 +68,7 @@
   align-items: center;
 }
 
-.book-item{
+.book-item {
   list-style-type: none;
   display: flex;
   flex-direction: column;
@@ -75,50 +76,52 @@
   width: 100%;
 }
 
-.book-description{
+.book-description {
   display: flex;
   flex-direction: row;
   margin: .3em;
 }
 
-.book-description h5:nth-child(1){
+.book-description h5:nth-child(1) {
   width: 43%;
 }
-.book-description h5:nth-child(2){
+
+.book-description h5:nth-child(2) {
   width: 8em;
 }
-.book-description h5:nth-child(3){
+
+.book-description h5:nth-child(3) {
   width: 5em;
 }
 
 
 /* END */
 
-.book-btns{
+.book-btns {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: flex-end;
 }
 
-.book-btns > button{
+.book-btns>button {
   margin: 0 .5em;
 }
 
-.toggle-read-btn {
+.edit-btn {
   font-size: 37px;
   height: 2em;
   width: fit-content;
-  background-color: #CC5520;
+  background-color: #dcca00;
   color: #fff;
   border: none;
-  padding: 5px 7px;
+  padding: 5px 15px;
   transition: filter .3s linear;
 }
 
 .delete-btn {
   font-size: 37px;
-  background-color: red;
+  background-color: rgb(217, 0, 0);
   color: #fff;
   border: none;
   width: fit-content;

@@ -1,6 +1,6 @@
 // src/components/App.js
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addBook,
@@ -13,10 +13,17 @@ import {
   getBooksFromSessionStorage,
   setBooksInSessionStorage,
 } from "../store/services/sessionStorageService";
+import BookModal from "./BookModal";
 
 const BooksList = () => {
   const dispatch = useDispatch();
   const books = useSelector((state) => state.books);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentBook, setCurrentBook] = useState(null);
+
+  const handleNewBook = (newBook) => {
+    dispatch(addBook(newBook));
+  };
 
   useEffect(() => {
     initializeSessionStorage();
@@ -27,18 +34,26 @@ const BooksList = () => {
     setBooksInSessionStorage(books);
   }, [books]);
 
-  const handleAddBook = () => {
-    const newBook = {
-      title: "New Book",
-      author: "New Author",
-      read: "No",
-      price: 14.99,
-    };
-    dispatch(addBook(newBook));
+  const handleUpdateBook = (updatedBook) => {
+    dispatch(updateBook(updatedBook));
+    setCurrentBook(null);
+  };
+  const handleEditClick = (book) => {
+    setIsModalOpen(true);
+    setCurrentBook(book);
   };
 
-  const handleUpdateBook = (index, updatedBook) => {
-    dispatch(updateBook(index, updatedBook));
+  const handleAddClick = () => {
+    setCurrentBook(null);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = (book) => {
+    if (currentBook) {
+      handleUpdateBook(book);
+    } else {
+      handleNewBook(book);
+    }
   };
 
   const handleDeleteBook = (index) => {
@@ -54,7 +69,9 @@ const BooksList = () => {
           <h4>Read</h4>
           <h4>Price</h4>
         </div>
-        <button className="add-book-btn" onClick={handleAddBook}>Add Book</button>
+        <button onClick={() => handleAddClick()} className="add-book-btn">
+          Add Book
+        </button>
       </div>
       <ul className="book-list">
         {books.map((book, index) => (
@@ -62,20 +79,13 @@ const BooksList = () => {
             <div className="book-description">
               <h5>{book.title}</h5>
               <h5>{book.author}</h5>
-              <h5>{book.read}</h5>
+              <h5>{book.read ? "Yes" : "No"}</h5>
               <h5>${book.price}</h5>
             </div>
             <div className="book-btns">
               <button
-                className="toggle-read-btn"
-                onClick={() =>
-                  handleUpdateBook(index, {
-                    ...book,
-                    read: book.read === "Yes" ? "No" : "Yes",
-                  })
-                }
-              >
-                Toggle Read Status
+                onClick={() => handleEditClick(book)}
+                className="edit-btn">  Edit
               </button>
               <button
                 className="delete-btn"
@@ -87,6 +97,12 @@ const BooksList = () => {
           </li>
         ))}
       </ul>
+      <BookModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
+        book={currentBook}
+      />
     </div>
   );
 };

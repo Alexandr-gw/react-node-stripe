@@ -4,9 +4,9 @@ export const addBook = (book) => ({
   payload: book,
 });
 
-export const updateBook = (index, updatedBook) => ({
+export const updateBook = (updatedBook) => ({
   type: UPDATE_BOOK,
-  payload: { index, updatedBook },
+  payload: { updatedBook },
 });
 
 export const deleteBook = (index) => ({
