@@ -14,6 +14,7 @@ import {
   setBooksInSessionStorage,
 } from "../store/services/sessionStorageService";
 import BookModal from "./BookModal";
+import CheckoutButton from './CheckoutBtn';
 
 const BooksList = () => {
   const dispatch = useDispatch();
@@ -93,6 +94,7 @@ const BooksList = () => {
               >
                 Delete
               </button>
+              <CheckoutButton price={book.price}/>
             </div>
           </li>
         ))}

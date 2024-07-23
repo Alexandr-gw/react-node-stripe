@@ -129,6 +129,16 @@
   transition: filter .3s linear;
 }
 
+.checkout-btn {
+  font-size: 37px;
+  background-color: rgb(0, 110, 255);
+  color: #fff;
+  border: none;
+  width: fit-content;
+  padding: 5px 7px;
+  transition: filter .3s linear;
+}
+
 button:hover {
   filter: opacity(.75)
 }

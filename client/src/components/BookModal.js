@@ -25,7 +25,6 @@ const BookModal = ({ isOpen, onClose, onSubmit, book }) => {
   }, [book]);
 
   const handleChange = (e) => {
-    console.log(e)
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
