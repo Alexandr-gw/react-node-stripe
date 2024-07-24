@@ -1,29 +1,23 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const dotenv = require('dotenv');
+const paymentRoutes = require('./routes/paymentRoutes');
+const bookRoutes = require('./routes/bookRoutes');
+const { errorHandler } = require('./middleware/errorMiddleware');
+
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
 
-app.use(bodyParser.json());
-app.use(cors());
+app.use(express.json());
 
-app.post('/api/checkout', async (req, res) => {
-  try {
-    const { token, amount } = req.body;
-    const charge = await stripe.charges.create({
-      amount,
-      currency: 'usd',
-      source: token.id,
-      description: 'Test Charge',
-    });
-    res.status(200).json({ success: true, charge });
-  } catch (error) {
-    res.status(500).json({ success: false, error });
-  }
-});
+//app.use('/api/payment', paymentRoutes);
+//app.use('/api/books', bookRoutes);
+app.use('/', bookRoutes);
+
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
