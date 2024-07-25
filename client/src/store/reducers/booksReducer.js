@@ -1,22 +1,54 @@
-import { ADD_BOOK, UPDATE_BOOK, DELETE_BOOK, SET_BOOKS } from '../actions/actionTypes';
+import {
+  GET_BOOKS,
+  ADD_BOOK,
+  UPDATE_BOOK,
+  DELETE_BOOK,
+  BOOK_ERROR,
+} from '../actions/actionTypes';
 
-const initialState = [];
+const initialState = {
+  books: [],
+  loading: true,
+  error: null,
+};
 
-const booksReducer = (state = initialState, action) => {
+const bookReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_BOOKS:
-      return action.payload;
+    case GET_BOOKS:
+      return {
+        ...state,
+        books: action.payload,
+        loading: false,
+      };
     case ADD_BOOK:
-      return [...state, action.payload];
+      return {
+        ...state,
+        books: [...state.books, action.payload],
+        loading: false,
+      };
     case UPDATE_BOOK:
-      return state.map((book) =>       
-        book.id === action.payload.updatedBook.id ? action.payload.updatedBook : book
-      );
+      return {
+        ...state,
+        books: state.books.map(book =>
+          book.id === action.payload.id ? action.payload : book
+        ),
+        loading: false,
+      };
     case DELETE_BOOK:
-      return state.filter((_, index) => index !== action.payload);
+      return {
+        ...state,
+        books: state.books.filter(book => book.id !== action.payload),
+        loading: false,
+      };
+    case BOOK_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
     default:
       return state;
   }
 };
 
-export default booksReducer;
+export default bookReducer;

@@ -2,17 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addBook,
-  updateBook,
-  deleteBook,
-  setBooks,
-} from "../store/actions/actions";
-import {
-  initializeSessionStorage,
-  getBooksFromSessionStorage,
-  setBooksInSessionStorage,
-} from "../store/services/sessionStorageService";
+import { addBook, updateBook, deleteBook, setBooks, } from "../store/actions/actions";
+import { initializeSessionStorage, getBooksFromSessionStorage, setBooksInSessionStorage, } from "../store/services/sessionStorageService";
 import BookModal from "./BookModal";
 import CheckoutButton from './CheckoutBtn';
 
@@ -94,7 +85,7 @@ const BooksList = () => {
               >
                 Delete
               </button>
-              <CheckoutButton price={book.price}/>
+              <CheckoutButton price={book.price} />
             </div>
           </li>
         ))}
