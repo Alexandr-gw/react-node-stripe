@@ -1,11 +1,15 @@
 const express = require('express');
-const { getBooks } = require('../controllers/bookController');
+const {
+  getBooks,
+  addBook,
+  updateBook,
+  deleteBook,
+} = require('../controllers/bookController');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-   getBooks(req, res); 
-   res.status(200).json({ message: 'Server is running!' });
-});
-
+router.get('/', getBooks);
+router.post('/', addBook);
+router.put('/:id', updateBook);
+router.delete('/:id', deleteBook);
 
 module.exports = router;
