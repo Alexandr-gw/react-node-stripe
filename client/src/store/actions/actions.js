@@ -38,7 +38,7 @@ export const addBook = (book) => async dispatch => {
 };
 
 export const updateBook = (id, book) => async dispatch => {
-  try {
+   try {
     const data = await bookService.updateBook(id, book);
     dispatch({
       type: UPDATE_BOOK,

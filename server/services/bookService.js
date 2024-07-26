@@ -5,13 +5,13 @@ exports.getBooks = () => {
 };
 
 exports.addBook = (newBook) => {
-  newBook.id = (books.length + 1).toString(); // Simple ID generation
+  newBook.id = (books.length + 1).toString();
   books.push(newBook);
   return newBook;
 };
 
 exports.updateBook = (id, updatedBook) => {
-  const index = books.findIndex(book => book.id === id);
+  const index = books.findIndex(book => book.id.toString() === id.toString());
   if (index !== -1) {
     books[index] = { ...books[index], ...updatedBook };
     return books[index];

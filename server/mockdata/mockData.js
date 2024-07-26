@@ -26,6 +26,20 @@ const books = [
         author: 'J.D. Salinger',
         read: 'No',
         price: 9.99
+    },
+    {
+        id: 11,
+        title: '11',
+        author: 'J.D. Salinger',
+        read: 'No',
+        price: 9.09
+    },
+    {
+        id: 111,
+        title: '111',
+        author: 'J.D. Salinger',
+        read: 'No',
+        price: 0.99
     }
 ];
 

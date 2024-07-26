@@ -4,12 +4,14 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const rootRoute = require('./routes/rootRoute');
 const { errorHandler } = require('./middleware/errorMiddleware');
+const cors = require('cors');
 
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/payment', paymentRoutes);
 app.use('/api/books', bookRoutes);
