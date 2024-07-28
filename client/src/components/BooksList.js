@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBooks, addBook, updateBook, deleteBook } from "../store/actions/actions";
+import { getBooks, addBook, updateBook, deleteBook } from "../store/actions/actionsBook";
 import BookModal from "./BookModal";
 import CheckoutButton from './CheckoutBtn';
 import LoadingPage from "./LoadingPage";
@@ -83,7 +83,7 @@ const BooksList = () => {
                 >
                   Delete
                 </button>
-                <CheckoutButton price={book.price} />
+                <CheckoutButton book={book} />
               </div>
             </li>
           ))}
