@@ -8,13 +8,12 @@ export const createPaymentIntentAction = (paymentData) => async (dispatch) => {
   dispatch({ type: CREATE_PAYMENT_INTENT_REQUEST });
   try {
     const paymentIntent = await createPaymentIntent(paymentData);
-    dispatch({
+     dispatch({
       type: CREATE_PAYMENT_INTENT_SUCCESS,
       payload: paymentIntent
     });
-    return paymentIntent.success_url//hardcode. need to change
   } catch (error) {
-    dispatch({
+     dispatch({
       type: CREATE_PAYMENT_INTENT_FAILURE,
       error: error.message
     });

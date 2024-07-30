@@ -1,5 +1,3 @@
-// src/components/App.js
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBooks, addBook, updateBook, deleteBook } from "../store/actions/actionsBook";
@@ -46,6 +44,12 @@ const BooksList = () => {
   const handleDeleteBook = (id) => {
     dispatch(deleteBook(id));
   };
+
+  // const handleCheckout = (book) => {
+  //   if (book) {
+  //     return (<CheckoutButton book={book} />)
+  //   }
+  // }
   if (loading) {
     return (<LoadingPage />)
   } else {
@@ -83,6 +87,7 @@ const BooksList = () => {
                 >
                   Delete
                 </button>
+                {/* <button className="checkout-btn" onClick={() => handleCheckout(book)}>Checkout</button> */}
                 <CheckoutButton book={book} />
               </div>
             </li>
