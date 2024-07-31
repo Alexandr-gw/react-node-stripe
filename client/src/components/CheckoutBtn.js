@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CheckoutForm, useStripe, useElements, Elements } from '@stripe/react-stripe-js';
+import { CheckoutForm, useStripe, useElements, Elements, CardElement, PaymentElement } from '@stripe/react-stripe-js';
 import { createPaymentIntentAction } from '../store/actions/actionsStripe';
 import { loadStripe } from "@stripe/stripe-js";
+import CheckoutPage from './CheckoutPage';
 
 const CheckoutButton = ({ book }) => {
   const stripe = useStripe();
@@ -43,26 +45,23 @@ const CheckoutButton = ({ book }) => {
     setOnCheckout(true);
   };
   if (successIntent) {
-    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+    //  const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
     const appearance = {
       theme: 'stripe',
     };
     const options = {
       clientSecret,
-      appearance,
+      //  stripePromise
     };
-    console.log(stripePromise)
-    return (<div className="App">
-      {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
-      )}
-    </div>)
+    //console.log('stripePromise----->', stripePromise, '=========', { clientSecret: clientSecret })
+    // return (
+
+    // //  <CheckoutPage book={book} />
+    // )
   } else {
     return (
       <form onSubmit={handleSubmit}>
-        <button type="submit" className='checkout-btn'>Pay</button>
+        <Link to='/CheckoutPage' className='checkout-btn' onClick={handleSubmit}> Pay</Link>
       </form>
     );
   }
