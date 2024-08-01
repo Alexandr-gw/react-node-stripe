@@ -1,24 +1,23 @@
 const stripe = require('../config/stripe');
 
-exports.createCheckoutSession = async (items) => {
-  const lineItems = items.map(item => ({
-    price_data: {
-      currency: 'usd',
-      product_data: {
-        name: item.name,
-      },
-      unit_amount: item.price,
-    },
-    quantity: item.quantity,
-  }));
+exports.createCheckoutSession = async (req, res) => {
+  const { priceId, quantity } = req.body;
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: lineItems,
-    mode: 'payment',
-    success_url: `${process.env.CLIENT_URL}/success`,
-    cancel_url: `${process.env.CLIENT_URL}/cancel`,
-  });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: priceId, // Use the provided Price ID
+          quantity: quantity,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${process.env.CLIENT_URL}?success=true`,
+      cancel_url: `${process.env.CLIENT_URL}?canceled=true`,
+    });
 
-  return session;
+    return session
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
