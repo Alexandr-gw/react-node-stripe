@@ -1,23 +1,32 @@
-const stripe = require('../config/stripe');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-exports.createCheckoutSession = async (req, res) => {
-  const { priceId, quantity } = req.body;
+async function findOrCreateProduct(name) {
+  const products = await stripe.products.list({ limit: 100 });
+  let product = products.data.find(p => p.name === name);
 
-  try {
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price: priceId, // Use the provided Price ID
-          quantity: quantity,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${process.env.CLIENT_URL}?success=true`,
-      cancel_url: `${process.env.CLIENT_URL}?canceled=true`,
-    });
-
-    return session
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  if (!product) {
+    product = await stripe.products.create({ name });
   }
+
+  return product;
+}
+
+async function findOrCreatePrice(productId, priceData) {
+  const prices = await stripe.prices.list({ product: productId });
+
+  let price = prices.data.find(p => p.unit_amount === priceData.unit_amount && p.currency === priceData.currency);
+
+  if (!price) {
+    price = await stripe.prices.create({
+      ...priceData,
+      product: productId,
+    });
+  }
+
+  return price;
+}
+
+module.exports = {
+  findOrCreateProduct,
+  findOrCreatePrice,
 };
