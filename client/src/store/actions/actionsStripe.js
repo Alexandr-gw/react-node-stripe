@@ -1,20 +1,20 @@
-import { createPaymentIntent } from '../services/stripeService';
+import { createCheckout } from '../services/stripeService';
 
-export const CREATE_PAYMENT_INTENT_REQUEST = 'CREATE_PAYMENT_INTENT_REQUEST';
-export const CREATE_PAYMENT_INTENT_SUCCESS = 'CREATE_PAYMENT_INTENT_SUCCESS';
-export const CREATE_PAYMENT_INTENT_FAILURE = 'CREATE_PAYMENT_INTENT_FAILURE';
+export const CHECKOUT_REQUEST = 'CHECKOUT_REQUEST';
+export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
+export const CHECKOUT_FAILURE = 'CHECKOUT_FAILURE';
 
-export const createPaymentIntentAction = (paymentData) => async (dispatch) => {
-  dispatch({ type: CREATE_PAYMENT_INTENT_REQUEST });
+export const checkoutAction = (paymentData) => async (dispatch) => {
+  dispatch({ type: CHECKOUT_REQUEST });
   try {
-    const paymentIntent = await createPaymentIntent(paymentData);
+    const checkoutSession = await createCheckout(paymentData);
      dispatch({
-      type: CREATE_PAYMENT_INTENT_SUCCESS,
-      payload: paymentIntent
+      type: CHECKOUT_SUCCESS,
+      payload: checkoutSession
     });
   } catch (error) {
      dispatch({
-      type: CREATE_PAYMENT_INTENT_FAILURE,
+      type: CHECKOUT_FAILURE,
       error: error.message
     });
   }

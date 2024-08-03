@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/stripeRoutes/create-payment-intent';
+const API_URL = 'http://localhost:8080/api/payment/create-checkout-session';
 
-export const createPaymentIntent = async (paymentData) => {
+export const createCheckout = async (paymentData) => {
   const response = await axios.post(API_URL, paymentData);
   if (response.status === 200) {
     return response.data;

@@ -1,32 +1,40 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')(`${process.env.STRIPE_SECRET_KEY}`);
 
-async function findOrCreateProduct(name) {
+async function findOrCreateProduct(book) {
+
   const products = await stripe.products.list({ limit: 100 });
-  let product = products.data.find(p => p.name === name);
-
+  let product = products.data.find(p => p.id === book.id);
   if (!product) {
-    product = await stripe.products.create({ name });
+    product = await stripe.products.create({ 
+      id: book.id,
+      name: book.title,
+      description: book.description || 'No description',
+      default_price_data: {
+        currency: 'cad',
+        unit_amount: book.price*100,
+      }
+     });
   }
 
   return product;
 }
 
-async function findOrCreatePrice(productId, priceData) {
-  const prices = await stripe.prices.list({ product: productId });
-
-  let price = prices.data.find(p => p.unit_amount === priceData.unit_amount && p.currency === priceData.currency);
-
-  if (!price) {
-    price = await stripe.prices.create({
-      ...priceData,
-      product: productId,
-    });
-  }
-
-  return price;
+async function createCheckoutSession(stripePriceId) {
+const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price: stripePriceId,
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: `${process.env.CLIENT_URL}?success=true`,
+    cancel_url: `${process.env.CLIENT_URL}?canceled=true`,
+  });
+ return session;
 }
 
 module.exports = {
-  findOrCreateProduct,
-  findOrCreatePrice,
+  createCheckoutSession,
+  findOrCreateProduct
 };

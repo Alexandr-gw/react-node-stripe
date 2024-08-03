@@ -17,7 +17,6 @@ import BooksList from './components/BooksList'
 import LoadingPage from './components/LoadingPage'
 import Book from './components/Book'
 import BookDescription from './components/BookDescription'
-import CheckoutPage from './components/CheckoutPage'
 
 
 //===
@@ -32,7 +31,6 @@ function App() {
                 <Route index element={<Home />} />
                 <Route id="BooksList" path="BooksList" element={<Outlet />}>
                     <Route index element={<BooksList />} />
-                    <Route id="CheckoutPage" path="CheckoutPage" element={<CheckoutPage />} />
                     <Route id="book" path=":bookId" element={<Book />} >
                         <Route path="description" element={<BookDescription />} />
                     </Route>

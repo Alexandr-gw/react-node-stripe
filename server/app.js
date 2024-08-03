@@ -1,12 +1,10 @@
 const express = require('express');
-const dotenv = require('dotenv');
+const dotenv = require('./dotenvLoad');
 const paymentRoutes = require('./routes/paymentRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const rootRoute = require('./routes/rootRoute');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const cors = require('cors');
-
-dotenv.config();
 
 const app = express();
 

@@ -1,35 +1,23 @@
-// server/controllers/checkoutController.js
+const { createCheckoutSession, findOrCreateProduct } = require('../services/stripeService');
+const { getBooks } = require('../services/bookService');
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { findOrCreateProduct, findOrCreatePrice } = require('../services/stripeService');
-
-const createCheckoutSession = async (req, res) => {
-  const { productName, unitAmount, currency, recurringInterval } = req.body;
+const handleCreateCheckoutSession = async (req, res) => {
+  const { quantity, id } = req.body;
 
   try {
-    const product = await findOrCreateProduct(productName);
 
-    const priceData = {
-      currency: currency || 'usd',
-      unit_amount: unitAmount,
-      recurring: recurringInterval ? { interval: recurringInterval } : undefined,
-    };
+    const books = getBooks();
+    const book = books.find(book => book.id === id);
+    if (!book) {
+      throw new Error('Product not found in mock data');
+    } else {
+     newBook = await findOrCreateProduct(book)  
+     console.log('newBook----->', newBook);
+    }
 
-    const price = await findOrCreatePrice(product.id, priceData);
-
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price: price.id,
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${process.env.CLIENT_URL}?success=true`,
-      cancel_url: `${process.env.CLIENT_URL}?canceled=true`,
-    });
-
-    res.redirect(303, session.url);
+    const session = await createCheckoutSession(newBook.default_price);
+    console.log('session--->',session.url)
+    // res.redirect(303, session.url);
   } catch (error) {
     console.error('Error creating checkout session:', error);
     res.status(500).json({ error: error.message });
@@ -37,5 +25,5 @@ const createCheckoutSession = async (req, res) => {
 };
 
 module.exports = {
-  createCheckoutSession,
+  handleCreateCheckoutSession,
 };
