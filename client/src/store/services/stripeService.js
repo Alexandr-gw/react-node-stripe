@@ -7,6 +7,6 @@ export const createCheckout = async (paymentData) => {
   if (response.status === 200) {
     return response.data;
   } else {
-    throw new Error('Failed to create payment intent');
+   console.log(response)
   }
 };

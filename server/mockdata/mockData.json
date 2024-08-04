@@ -1,12 +1,13 @@
 [
   {
-    "id": "2",
+    "id": "22",
     "title": "1984",
     "author": "George Orwell",
     "read": false,
-    "price": "8.99",
-    "stripePriceId": null,
-    "stripeProductId": null
+    "price": "9.98",
+    "stripePriceId": "price_1Pjx8BRtZj5jJHBhXkRxarxl",
+    "stripeProductId": null,
+    "ifEdited": false
   },
   {
     "id": "3",
@@ -14,8 +15,9 @@
     "author": "F. Scott Fitzgerald",
     "read": "Yes",
     "price": "12.99",
-    "stripePriceId": null,
-    "stripeProductId": null
+    "stripePriceId": "price_1PjwxMRtZj5jJHBhPHmF9FoW",
+    "stripeProductId": null,
+    "ifEdited": false
   },
   {
     "id": "4",
@@ -36,15 +38,6 @@
     "stripeProductId": null
   },
   {
-    "id": "111",
-    "title": "111",
-    "author": "J.D. Salinger",
-    "read": "No",
-    "price": "0.99",
-    "stripePriceId": null,
-    "stripeProductId": null
-  },
-  {
     "title": "New bike",
     "author": "Arken",
     "price": "23.11",
@@ -52,5 +45,22 @@
     "id": "6",
     "stripePriceId": null,
     "stripeProductId": null
+  },
+  {
+    "title": "Hello Sissi ",
+    "author": "Barbara",
+    "price": "11.99",
+    "read": true,
+    "id": "7",
+    "stripePriceId": null
+  },
+  {
+    "title": "Arthur the King  2",
+    "author": "Allan ",
+    "price": "39.19",
+    "read": false,
+    "id": "8",
+    "stripePriceId": "price_1Pjwr1RtZj5jJHBh9O4SzciM",
+    "ifEdited": false
   }
 ]

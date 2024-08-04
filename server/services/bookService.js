@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-
 const dataFilePath = path.join(__dirname, '../mockdata/mockData.json');
 const readBooksFromFile = () => {
   const data = fs.readFileSync(dataFilePath, 'utf-8');
@@ -28,6 +27,28 @@ exports.updateBook = (id, updatedBook) => {
   const index = books.findIndex(book => book.id.toString() === id.toString());
   if (index !== -1) {
     books[index] = { ...books[index], ...updatedBook, id: books[index].id };
+    writeBooksToFile(books);
+    return books[index];
+  }
+  throw new Error('Book not found');
+};
+
+exports.updateStripePriceId = (id, priceId) => {
+  const books = readBooksFromFile();
+  const index = books.findIndex(book => book.id.toString() === id.toString());
+  if (index !== -1) {
+    books[index] = { ...books[index], stripePriceId: priceId };
+    writeBooksToFile(books);
+    return books[index];
+  }
+  throw new Error('Book not found');
+}
+
+exports.updateIfEdited = (id, ifEdited) => {
+  const books = readBooksFromFile();
+  const index = books.findIndex(book => book.id.toString() === id.toString());
+  if (index !== -1) {
+    books[index] = { ...books[index], ifEdited: ifEdited };
     writeBooksToFile(books);
     return books[index];
   }

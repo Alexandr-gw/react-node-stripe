@@ -16,7 +16,7 @@ const stripeReducer = (state = initialState, action) => {
       return { ...state, loading: true, error: null };
     case CHECKOUT_SUCCESS: {
       state = {
-        url: action.payload.url,
+        url: action.url,
         loading: false,
         error: null
       }

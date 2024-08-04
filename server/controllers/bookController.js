@@ -14,6 +14,7 @@ exports.updateBook = (req, res) => {
   const updatedBook = req.body;
   const { id } = req.params;
   const book = bookService.updateBook(id, updatedBook);
+  bookService.updateIfEdited(id, true);
   res.json(book);
 };
 

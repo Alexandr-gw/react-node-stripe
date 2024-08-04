@@ -10,7 +10,7 @@ export const checkoutAction = (paymentData) => async (dispatch) => {
     const checkoutSession = await createCheckout(paymentData);
      dispatch({
       type: CHECKOUT_SUCCESS,
-      payload: checkoutSession
+      url: checkoutSession
     });
   } catch (error) {
      dispatch({

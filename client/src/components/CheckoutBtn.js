@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CheckoutForm, useStripe, useElements, Elements, CardElement, PaymentElement } from '@stripe/react-stripe-js';
+import { useStripe } from '@stripe/react-stripe-js';
 import { checkoutAction } from '../store/actions/actionsStripe';
-import { loadStripe } from "@stripe/stripe-js";
 
 const CheckoutButton = ({ book }) => {
   const stripe = useStripe();
-  const elements = useElements();
   const dispatch = useDispatch();
-  const { clientSecret, loading, error } = useSelector(state => state.stripe);
+  const [response, setResponse] = useState(false);
+  const { url, loading, error } = useSelector(state => state.stripe);
 
+  useEffect(() => {
+    if (url && response) {
+      window.location.replace(url);
+      setResponse(false)
+    }
+  }, [url, dispatch]);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!stripe || !elements || loading) {
+    if (!stripe || loading) {
       return;
     }
     const paymentData = {
@@ -21,14 +26,13 @@ const CheckoutButton = ({ book }) => {
       id: book.id
     };
 
-    const response = await dispatch(checkoutAction(paymentData));
-
-    window.location.replace(`${response}`);
+    dispatch(checkoutAction(paymentData));
+    setResponse(true)
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <button type="submit" className='checkout-btn'>Pay</button>
-    </form>
+    <div>
+      <button type="submit" className='checkout-btn' onClick={handleSubmit}>Pay</button>
+    </div>
   );
 
 }
