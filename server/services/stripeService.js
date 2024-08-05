@@ -1,8 +1,9 @@
 const stripe = require('stripe')(`${process.env.STRIPE_SECRET_KEY}`);
 const { updateStripePriceId, updateIfEdited } = require('../services/bookService');
+const {listProducts} = require('../utils/stripeUtils');
 
 async function findOrCreateProduct(book) {
-  const products = await stripe.products.list({ limit: 100 });
+  const products = await listProducts();
   let product = products.data.find(p => p.id === book.id);
 
   if (!product) {
@@ -52,8 +53,8 @@ async function createCheckoutSession(stripePriceId) {
       },
     ],
     mode: 'payment',
-    success_url: `${process.env.CLIENT_URL}?success=true`,
-    cancel_url: `${process.env.CLIENT_URL}?canceled=true`,
+    success_url: `${process.env.CLIENT_URL}stripeSuccess`,
+    cancel_url: `${process.env.CLIENT_URL}stripeCanceled`,
   });
   return session;
 }

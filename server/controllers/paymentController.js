@@ -16,6 +16,7 @@ const handleCreateCheckoutSession = async (req, res) => {
     console.log('newBook--->', newBook);
 
     const session = await createCheckoutSession(newBook.default_price);
+    
     res.json(session.url);
   } catch (error) {
     console.error('Error creating checkout session:', error);
