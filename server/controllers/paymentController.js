@@ -11,7 +11,7 @@ const handleCreateCheckoutSession = async (req, res) => {
     if (!book) {
       throw new Error('Product not found in mock data');
     }
-
+console.log('book--->', book);
     newBook = await findOrCreateProduct(book)
     console.log('newBook--->', newBook);
 

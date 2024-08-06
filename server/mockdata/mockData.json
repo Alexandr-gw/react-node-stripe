@@ -4,10 +4,10 @@
     "title": "1984",
     "author": "George Orwell",
     "read": false,
-    "price": "9.72",
-    "stripePriceId": "price_1PkEMVRtZj5jJHBhmuKbyqMH",
+    "price": "11.13",
+    "stripePriceId": "price_1PkTOvRtZj5jJHBh2UQhXyib",
     "stripeProductId": null,
-    "ifEdited": false
+    "updatedOn": true
   },
   {
     "id": "3",
@@ -17,7 +17,7 @@
     "price": "12.99",
     "stripePriceId": "price_1PjwxMRtZj5jJHBhPHmF9FoW",
     "stripeProductId": null,
-    "ifEdited": false
+    "updatedOn": false
   },
   {
     "id": "4",
@@ -25,15 +25,6 @@
     "author": "J.D. Salinger",
     "read": "No",
     "price": "9.99",
-    "stripePriceId": null,
-    "stripeProductId": null
-  },
-  {
-    "id": "11",
-    "title": "11",
-    "author": "J.D. Salinger",
-    "read": "No",
-    "price": "9.09",
     "stripePriceId": null,
     "stripeProductId": null
   },
@@ -47,20 +38,37 @@
     "stripeProductId": null
   },
   {
-    "title": "Hello Sissi ",
+    "title": "Hello Sissi 2",
     "author": "Barbara",
     "price": "11.99",
     "read": true,
     "id": "7",
-    "stripePriceId": null
+    "stripePriceId": null,
+    "updatedOn": true
   },
   {
-    "title": "Arthur the King  2",
+    "title": "Arthur the King  ",
     "author": "Allan ",
-    "price": "39.19",
+    "price": "19.49",
     "read": false,
     "id": "8",
-    "stripePriceId": "price_1Pjwr1RtZj5jJHBh9O4SzciM",
-    "ifEdited": false
+    "stripePriceId": "price_1Pkd6sRtZj5jJHBhiM2Bbzld",
+    "updatedOn": false
+  },
+  {
+    "title": "New pack",
+    "author": "Pami",
+    "price": "11.49",
+    "read": false,
+    "id": "9968ce3c-ff3b-4355-b1b3-889cae61a3aa",
+    "stripePriceId": "price_1Pkd5gRtZj5jJHBhOM2XZMOb",
+    "updatedOn": "2024-08-06T02:25:54.706Z"
+  },
+  {
+    "title": "Nice cab",
+    "author": "Yello NY",
+    "price": "23.85",
+    "read": false,
+    "id": "e5c27a6e-37eb-4ebb-9221-9a169c9ddb71"
   }
 ]

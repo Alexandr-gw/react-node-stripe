@@ -1,5 +1,5 @@
 const stripe = require('stripe')(`${process.env.STRIPE_SECRET_KEY}`);
-const { updateStripePriceId, updateIfEdited } = require('../services/bookService');
+const { updateStripePriceId, updateUpdatedOn } = require('../services/bookService');
 const {listProducts} = require('../utils/stripeUtils');
 
 async function findOrCreateProduct(book) {
@@ -18,7 +18,7 @@ async function findOrCreateProduct(book) {
     })
     updateStripePriceId(product.id, product.default_price);
   } else {
-    if (book.ifEdited) {
+    if (book.updatedOn) {
       product = await stripe.products.update(product.id, {
         name: book.title,
         description: book.description || 'No description',
@@ -35,7 +35,7 @@ async function findOrCreateProduct(book) {
         active: false
       })
       updateStripePriceId(product.id, product.default_price);
-      updateIfEdited(product.id, false);
+      updateUpdatedOn(product.id, false);
       console.log(`---Book ${book.title} updated in Stripe API ---`)
     }
     return product;
