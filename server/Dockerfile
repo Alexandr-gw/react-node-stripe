@@ -4,10 +4,10 @@ WORKDIR /paymentdev/server
 
 COPY package*.json ./
 
-RUN npm install --production
+COPY . .
 
 RUN npm install
 
-RUN npm start
+CMD ["npm", "run", "dev"]
 
-EXPOSE 8081
+EXPOSE 8080

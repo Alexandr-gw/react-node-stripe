@@ -4,19 +4,21 @@ services:
   server:
     build: ./server
     ports:
-      - "8081:8081"
+      - "8080:8080"
     volumes:
-      - ./server:/usr/src/app
+      - ./server:/paymentdev/server
     environment:
-      NODE_ENV: production
+      - STRIPE_PUBLIC_KEY=pk_test_51PcoPzRtZj5jJHBhzOMGgFZW0h0ILDtnz6P8I3LQOiwrJ6lEuRhxw4Jll82t7lNgXVcwDM1bfOJ4xEXVzzZ5HM4q00vFmYTD72
+      - STRIPE_SECRET_KEY=sk_test_51PcoPzRtZj5jJHBhiadIqOdURCUJwYCtIf0cwpt7wPYighDcQ92MlnE4ZJS2eUlcBoZPYWFmMEQO1DJUDkWMyYkK00ICJwlVlP
+      - CLIENT_URL=http://localhost:3030/
 
   client:
     build: ./client
     ports:
-      - "3031:3031"
+      - "3000:3000"
     volumes:
-      - ./client:/usr/src/app
+      - ./client:/paymentdev/client
     environment:
-      NODE_ENV: production
-    depends_on:
-      - server
+      - REACT_APP_STRIPE_PUBLIC_KEY=pk_test_51PcoPzRtZj5jJHBhzOMGgFZW0h0ILDtnz6P8I3LQOiwrJ6lEuRhxw4Jll82t7lNgXVcwDM1bfOJ4xEXVzzZ5HM4q00vFmYTD72
+      - REACT_APP_STRIPE_PRIVATE_KEY=sk_test_51PcoPzRtZj5jJHBhiadIqOdURCUJwYCtIf0cwpt7wPYighDcQ92MlnE4ZJS2eUlcBoZPYWFmMEQO1DJUDkWMyYkK00ICJwlVlP
+

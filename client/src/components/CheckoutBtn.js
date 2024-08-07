@@ -7,7 +7,7 @@ const CheckoutButton = ({ book }) => {
   const stripe = useStripe();
   const dispatch = useDispatch();
   const [response, setResponse] = useState(false);
-  const { url, loading, error } = useSelector(state => state.stripe);
+  const { url, loading } = useSelector(state => state.stripe);
 
   useEffect(() => {
     if (url && response) {
