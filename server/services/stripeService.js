@@ -53,8 +53,8 @@ async function createCheckoutSession(stripePriceId) {
       },
     ],
     mode: 'payment',
-    success_url: `${process.env.CLIENT_URL}stripeSuccess`,
-    cancel_url: `${process.env.CLIENT_URL}stripeCanceled`,
+    success_url: `${process.env.CLIENT_URL}/SuccessPage`,
+    cancel_url: `${process.env.CLIENT_URL}/CancelPage`,
   });
   return session;
 }

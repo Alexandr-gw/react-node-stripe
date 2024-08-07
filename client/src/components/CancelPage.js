@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom'
 
- function stripeCancelPage() {
+ function CancelPage() {
     return (
       <div id="error-page">
         <h3>Canceled!</h3>
@@ -9,4 +9,4 @@ import {Link} from 'react-router-dom'
     );
   }
 
-  export default stripeCancelPage
+  export default CancelPage

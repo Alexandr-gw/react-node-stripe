@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom'
 
- function stripeSuccessPage() {
+ function SuccessPage() {
     return (
       <div id="error-page">
         <h3>Success!</h3>
@@ -9,4 +9,4 @@ import {Link} from 'react-router-dom'
     );
   }
 
-  export default stripeSuccessPage
+  export default SuccessPage

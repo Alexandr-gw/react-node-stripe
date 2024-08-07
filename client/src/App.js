@@ -17,8 +17,8 @@ import BooksList from './components/BooksList'
 import LoadingPage from './components/LoadingPage'
 import Book from './components/Book'
 import BookDescription from './components/BookDescription'
-import StripeCancelPage from './components/StripeCancelPage'
-import StripeSuccessPage from './components/StripeSuccessPage'
+import CancelPage from './components/CancelPage'
+import SuccessPage from './components/SuccessPage'
 
 
 //===
@@ -38,8 +38,8 @@ function App() {
                     </Route>
                 </Route>                
                 <Route path="LoadingPage" element={<LoadingPage />} />
-                <Route path="StripeSuccess" element={<StripeSuccessPage />} />
-                <Route path="StripeCanceled" element={<StripeCancelPage />} />
+                <Route path="SuccessPage" element={<SuccessPage />} />
+                <Route path="CancelPage" element={<CancelPage />} />
                 <Route path="/*" element={<ErrorPage />} />
             </Route>
         )
