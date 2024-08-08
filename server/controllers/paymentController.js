@@ -11,13 +11,12 @@ const handleCreateCheckoutSession = async (req, res) => {
     if (!book) {
       throw new Error('Product not found in mock data');
     }
-console.log('book--->', book);
     newBook = await findOrCreateProduct(book)
     console.log('newBook--->', newBook);
 
-    const session = await createCheckoutSession(newBook.default_price);
+    //const session = await createCheckoutSession('price_1PlKwURtZj5jJHBhGt3t9Ua7');
     
-    res.json(session.url);
+    //res.json(session.url);
   } catch (error) {
     console.error('Error creating checkout session:', error);
     res.status(500).json({ error: error.message });

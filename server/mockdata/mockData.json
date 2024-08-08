@@ -24,27 +24,19 @@
     "title": "The Catcher in the Rye",
     "author": "J.D. Salinger",
     "read": "No",
-    "price": "9.99",
-    "stripePriceId": null,
-    "stripeProductId": null
-  },
-  {
-    "title": "New bike",
-    "author": "Arken",
-    "price": "23.11",
-    "read": false,
-    "id": "6",
-    "stripePriceId": null,
-    "stripeProductId": null
+    "price": "29.92",
+    "stripePriceId": "price_1PlMn4RtZj5jJHBhTDgcGzH5",
+    "stripeProductId": null,
+    "updatedOn": false
   },
   {
     "title": "Hello Sissi 2",
     "author": "Barbara",
-    "price": "11.99",
+    "price": "11.49",
     "read": true,
     "id": "7",
     "stripePriceId": null,
-    "updatedOn": true
+    "updatedOn": "2024-08-07T22:44:59.599Z"
   },
   {
     "title": "Arthur the King  ",
@@ -65,10 +57,21 @@
     "updatedOn": "2024-08-06T02:25:54.706Z"
   },
   {
-    "title": "Nice cab",
-    "author": "Yello NY",
-    "price": "23.85",
+    "title": "Well big stage",
+    "author": "Olvei",
+    "price": "19.59",
     "read": false,
-    "id": "e5c27a6e-37eb-4ebb-9221-9a169c9ddb71"
+    "id": "f08ce8f7-3656-461c-9729-a8d4eb332cd5",
+    "stripePriceId": "price_1PlLAzRtZj5jJHBhKpfUBjQz",
+    "updatedOn": false
+  },
+  {
+    "title": "Cramala",
+    "author": "Hoama",
+    "price": "99.99",
+    "read": false,
+    "id": "98fb9d02-16fd-4eb2-922d-6b9e65ee5731",
+    "stripePriceId": "price_1PlMLsRtZj5jJHBhFCOBH6zX",
+    "updatedOn": false
   }
 ]
