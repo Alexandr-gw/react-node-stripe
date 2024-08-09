@@ -24,10 +24,10 @@
     "title": "The Catcher in the Rye",
     "author": "J.D. Salinger",
     "read": "No",
-    "price": "29.92",
-    "stripePriceId": "price_1PlMn4RtZj5jJHBhTDgcGzH5",
+    "price": "29.94",
+    "stripePriceId": "price_1PlNlQRtZj5jJHBhQyH89psV",
     "stripeProductId": null,
-    "updatedOn": false
+    "updatedOn": "2024-08-09T04:22:23.004Z"
   },
   {
     "title": "Hello Sissi 2",
@@ -66,12 +66,17 @@
     "updatedOn": false
   },
   {
-    "title": "Cramala",
-    "author": "Hoama",
-    "price": "99.99",
+    "title": "Qq",
+    "author": "Ww",
+    "price": "21",
     "read": false,
-    "id": "98fb9d02-16fd-4eb2-922d-6b9e65ee5731",
-    "stripePriceId": "price_1PlMLsRtZj5jJHBhFCOBH6zX",
-    "updatedOn": false
+    "id": "164daef5-a809-431b-af21-a3f7f2753995"
+  },
+  {
+    "title": "WW",
+    "author": "ww",
+    "price": "2",
+    "read": false,
+    "id": "1460cf82-00bd-42ca-9ec5-2aaa8fb01dde"
   }
 ]
