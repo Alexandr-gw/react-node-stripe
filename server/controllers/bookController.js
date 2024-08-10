@@ -28,10 +28,10 @@ async function updateBook(req, res) {
   const updatedBook = req.body;
   const { id } = req.params;
   try {
-    const result = await updateProduct(id, updatedBook);
+    await updateProduct(id, updatedBook);
     const book = bookService.updateBook(id, updatedBook);
     bookService.updateUpdatedOn(id, true);
-    res.json(result);
+    res.json(book);
   } catch (error) {
     console.error('Error updating book:', error);
     res.status(500).json({ error: 'Could not update book' });

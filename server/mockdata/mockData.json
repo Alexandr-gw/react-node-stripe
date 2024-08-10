@@ -30,15 +30,6 @@
     "updatedOn": "2024-08-09T04:22:23.004Z"
   },
   {
-    "title": "Hello Sissi 2",
-    "author": "Barbara",
-    "price": "11.49",
-    "read": true,
-    "id": "7",
-    "stripePriceId": null,
-    "updatedOn": "2024-08-07T22:44:59.599Z"
-  },
-  {
     "title": "Arthur the King  ",
     "author": "Allan ",
     "price": "19.49",
@@ -64,14 +55,5 @@
     "id": "f08ce8f7-3656-461c-9729-a8d4eb332cd5",
     "stripePriceId": "price_1PlLAzRtZj5jJHBhKpfUBjQz",
     "updatedOn": false
-  },
-  {
-    "title": "New horizon ",
-    "author": "Melon",
-    "price": "112.44",
-    "read": false,
-    "id": "bfe5e916-b5f7-44ef-adcd-e1c96f87d6d5",
-    "stripePriceId": "price_1Pm6qiRtZj5jJHBhD1kWzsCF",
-    "updatedOn": "2024-08-10T04:24:17.713Z"
   }
 ]
