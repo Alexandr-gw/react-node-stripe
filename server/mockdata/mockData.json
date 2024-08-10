@@ -66,17 +66,12 @@
     "updatedOn": false
   },
   {
-    "title": "Qq",
-    "author": "Ww",
-    "price": "21",
+    "title": "New horizon ",
+    "author": "Melon",
+    "price": "112.44",
     "read": false,
-    "id": "164daef5-a809-431b-af21-a3f7f2753995"
-  },
-  {
-    "title": "WW",
-    "author": "ww",
-    "price": "2",
-    "read": false,
-    "id": "1460cf82-00bd-42ca-9ec5-2aaa8fb01dde"
+    "id": "bfe5e916-b5f7-44ef-adcd-e1c96f87d6d5",
+    "stripePriceId": "price_1Pm6qiRtZj5jJHBhD1kWzsCF",
+    "updatedOn": "2024-08-10T04:24:17.713Z"
   }
 ]

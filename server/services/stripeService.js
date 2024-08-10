@@ -1,6 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { updateStripePriceId, updateUpdatedOn } = require('../services/bookService');
+const { updateStripePriceId, updateUpdatedOn, getBooks } = require('../services/bookService');
 const { listProducts } = require('../utils/stripeUtils');
+const { v4: uuidv4 } = require('uuid');
 
 async function findProduct(book) {
   try {
@@ -13,30 +14,30 @@ async function findProduct(book) {
 }
 
 async function addProduct(book) {
-  if (book) {
-    try {
-      console.log('book--->', book);
-      return product = await stripe.products.create({
-        id: book.id,
-        name: book.title,
-        description: book.description || 'No description',
-        default_price_data: {
-          currency: 'cad',
-          unit_amount: book.price * 100,
-        }
-      });
-    } catch (error) {
-      console.error('Error creating product in Stripe:', error);
-      throw new Error('Could not create product in Stripe');
-    }
-  } else {
-    console.log('Error occur while adding book in Stripe API');
+  if (!book) {
+    throw new Error('Book data is required');
+  }
+  book.id = uuidv4();
+  try {
+    const product = await stripe.products.create({
+      id: book.id,
+      name: book.title,
+      description: book.description || 'No description',
+      default_price_data: {
+        currency: 'cad',
+        unit_amount: book.price * 100,
+      }
+    });
+    return product
+  } catch (error) {
+    console.error('Error creating product in Stripe:', error);
+    throw new Error('Could not create product in Stripe');
   }
 }
 
-async function updateProduct(book) {//Need to separate add new product and update product. See stripe docs for how pull list of items
-  if (book.updatedOn) {
-    product = await stripe.products.update(product.id, {
+async function updateProduct(id, book) {
+  if (book) {
+    const product = await stripe.products.update(id, {
       name: book.title,
       description: book.description || 'No description',
     });
@@ -48,11 +49,12 @@ async function updateProduct(book) {//Need to separate add new product and updat
     await stripe.products.update(product.id, {
       default_price: price.id,
     });
-    await stripe.prices.update(book.stripePriceId, {
+    const oldPriceId = getBooks().find(b => b.id === id).stripePriceId;
+    await stripe.prices.update(oldPriceId, {
       active: false
     });
-    await updateStripePriceId(product.id, price.id);
-    await updateUpdatedOn(product.id, false);
+    updateStripePriceId(product.id, price.id);
+    updateUpdatedOn(product.id, false);
     console.log(`---Book ${book.title} updated in Stripe API ---`);
   } else {
     console.log('Error occur while updating book in Stripe API');
@@ -60,10 +62,18 @@ async function updateProduct(book) {//Need to separate add new product and updat
 }
 
 async function deleteProduct(id) {
-  const products = await listProducts();
-  const product = products.data.find(p => p.id === id);
-  if (product) {
-    await stripe.products.del(product.id)
+  try {
+    const products = await listProducts();
+    const product = products.data.find(p => p.id === id);
+    if (product) {
+      await stripe.products.update(product.id, {
+        active: false
+      });
+      return
+    }
+  } catch (error) {
+    console.error('Error deleting product in Stripe:', error);
+    throw new Error('Could not delete product in Stripe');
   }
 }
 

@@ -12,19 +12,18 @@ const writeBooksToFile = (books) => {
   fs.writeFileSync(dataFilePath, JSON.stringify(books, null, 2), 'utf-8');
 };
 
-exports.getBooks = () => {
+function getBooks() {
   return readBooksFromFile();
 };
 
-exports.addBook = (newBook) => {
+function addBook(newBook, priceId) {
   const books = readBooksFromFile();
-  newBook.id = uuidv4(); 
-  books.push(newBook);
+  books.push({ ...newBook, stripePriceId: priceId.default_price });
   writeBooksToFile(books);
   return newBook;
 };
 
-exports.updateBook = (id, updatedBook) => {
+function updateBook(id, updatedBook) {
   const books = readBooksFromFile();
   const book = books.find(book => book.id.toString() === id.toString());
   if (book) {
@@ -36,7 +35,7 @@ exports.updateBook = (id, updatedBook) => {
 };
 
 
-exports.updateStripePriceId = (id, priceId) => {
+function updateStripePriceId(id, priceId) {
   const books = readBooksFromFile();
   const book = books.find(book => book.id.toString() === id.toString());
   if (book) {
@@ -48,7 +47,7 @@ exports.updateStripePriceId = (id, priceId) => {
 };
 
 
-exports.updateUpdatedOn = (id, updatedOn) => {
+function updateUpdatedOn(id, updatedOn) {
   const books = readBooksFromFile();
   const book = books.find(book => book.id.toString() === id.toString());
   if (book) {
@@ -59,13 +58,15 @@ exports.updateUpdatedOn = (id, updatedOn) => {
   throw new Error('Book not found');
 };
 
-exports.deleteBook = (id) => {
+function deleteBook(id) {
   const books = readBooksFromFile();
   const updatedBooks = books.filter(book => book.id !== id);
-  
   if (books.length !== updatedBooks.length) {
     writeBooksToFile(updatedBooks);
   } else {
     throw new Error('Book not found');
   }
-};
+}
+
+
+module.exports = { getBooks, addBook, updateBook, updateStripePriceId, updateUpdatedOn, deleteBook }
