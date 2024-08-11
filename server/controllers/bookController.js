@@ -1,6 +1,5 @@
 const bookService = require('../services/bookService');
 const { addProduct, updateProduct, deleteProduct } = require('../services/stripeService');
-const { listProducts } = require('../utils/stripeUtils');
 
 async function getBooks(req, res) {
   try {

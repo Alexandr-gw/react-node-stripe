@@ -55,5 +55,14 @@
     "id": "f08ce8f7-3656-461c-9729-a8d4eb332cd5",
     "stripePriceId": "price_1PlLAzRtZj5jJHBhKpfUBjQz",
     "updatedOn": false
+  },
+  {
+    "title": "New horizon",
+    "author": "Korlee",
+    "price": "19.49",
+    "read": true,
+    "id": "aff5c01d-84a8-4f6e-ae4b-18a2633d22b5",
+    "stripePriceId": "price_1Pm758RtZj5jJHBhw85X60HT",
+    "updatedOn": "2024-08-10T04:40:27.199Z"
   }
 ]
