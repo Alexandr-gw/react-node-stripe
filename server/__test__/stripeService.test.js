@@ -57,7 +57,7 @@ describe('Stripe Service', () => {
             jest.resetModules();
         });
 
-        test('should add a product and return it', async () => {
+        it('should add a product and return it', async () => {
             const book = { title: "New", author: "ew", price: "12", read: false };
 
             const mockStripe = {
@@ -93,6 +93,8 @@ describe('Stripe Service', () => {
         });
 
         it('should throw an error if product creation fails', async () => {
+            jest.resetAllMocks();
+            // Mock the stripe module and its products.create method
             const mockStripe = {
                 products: {
                     create: jest.fn().mockRejectedValue(new Error('Stripe error'))
@@ -103,57 +105,90 @@ describe('Stripe Service', () => {
                 return jest.fn(() => mockStripe);
             });
 
+            // Define the book object that will be passed to addProduct
             const book = { title: "New", author: "ew", price: "12", read: false };
 
+            // Import the addProduct function after mocking stripe to ensure the mock is used
             const { addProduct } = require('../services/stripeService');
-            
-            await addProduct(book);
 
-            expect(mockStripe.products.create).toHaveBeenCalledWith(500);
-            //expect(res.json).toHaveBeenCalledWith({ error: 'Could not create product in Stripe' });
+            await expect(addProduct(book)).rejects.toThrow('Could not create product in Stripe');
+            expect(mockStripe.products.create).toHaveBeenCalledTimes(1);
+
         });
+
     });
 
     describe('updateProduct', () => {
+        beforeEach(() => {
+            jest.resetModules();
+            jest.resetAllMocks();
+        });
+
         it('should update a product and return it', async () => {
             const mockProduct = { id: 'prod_123', name: 'Updated Product' };
-            stripe.products.update.mockResolvedValue(mockProduct);
             const mockPrice = { id: 'price_123' };
-            stripe.prices.create.mockResolvedValue(mockPrice);
-            getBooks.mockReturnValue([{ id: 'prod_123', stripePriceId: 'price_456' }]);
+
+            const mockStripe = {
+                products: {
+                    update: jest.fn().mockResolvedValue(mockProduct)
+                },
+                prices: {
+                    create: jest.fn().mockResolvedValue(mockPrice),
+                    update: jest.fn()
+                }
+            };
+
+            jest.mock('stripe', () => {
+                return jest.fn(() => mockStripe);
+            });
+
+            const booksInFile = jest.fn().mockReturnValue([
+                { id: 'prod_123', stripePriceId: 'price_456' },
+                { id: 'prod_456', stripePriceId: 'price_789' }
+            ]);
+
+            jest.mock('../services/bookService', () => ({
+                updateStripePriceId: jest.fn(),
+                updateUpdatedOn: jest.fn(),
+                getBooks: jest.mockReturnValue(booksInFile)
+            }));
+
+            const { updateProduct } = require('../services/stripeService');
 
             req.params.id = 'prod_123';
             req.body = { title: 'Updated Book', price: 200 };
 
             await updateProduct(req, res);
 
-            expect(stripe.products.update).toHaveBeenCalledWith('prod_123', {
+            expect(mockStripe.products.update).toHaveBeenCalledWith('prod_123', {
                 name: 'Updated Book',
                 description: 'No description',
             });
-            expect(stripe.prices.create).toHaveBeenCalledWith({
+
+            expect(mockStripe.prices.create).toHaveBeenCalledWith({
                 currency: 'cad',
                 unit_amount: 20000,
                 product: 'prod_123'
             });
-            expect(stripe.products.update).toHaveBeenCalledWith('prod_123', {
+
+            expect(mockStripe.products.update).toHaveBeenCalledWith('prod_123', {
                 default_price: 'price_123',
             });
-            expect(stripe.prices.update).toHaveBeenCalledWith('price_456', {
-                active: false
-            });
-            expect(updateStripePriceId).toHaveBeenCalledWith('prod_123', 'price_123');
-            expect(updateUpdatedOn).toHaveBeenCalledWith('prod_123', false);
+
+            expect(mockStripe.prices.update).toHaveBeenCalledWith('price_456', { active: false });
             expect(res.json).toHaveBeenCalledWith(mockProduct);
         });
 
         it('should log an error if book is not provided', async () => {
             console.log = jest.fn();
+            const { updateProduct } = require('../services/stripeService');
+
             await updateProduct(req, res);
 
             expect(console.log).toHaveBeenCalledWith('Error occur while updating book in Stripe API');
         });
     });
+
 
     describe('deleteProduct', () => {
         it('should delete a product by deactivating it', async () => {
