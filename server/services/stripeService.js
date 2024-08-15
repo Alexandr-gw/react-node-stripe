@@ -64,7 +64,9 @@ async function updateProduct(id, book) {
 async function deleteProduct(id) {
   try {
     const products = await listProducts();
+    debugger;
     const product = products.data.find(p => p.id === id);
+    debugger;
     if (product) {
       await stripe.products.update(product.id, {
         active: false
