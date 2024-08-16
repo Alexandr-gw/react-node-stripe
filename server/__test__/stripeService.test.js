@@ -194,7 +194,8 @@ describe('Stripe Service', () => {
 
         it('should deactivate a product if it exists', async () => {
             const mockProducts = { data: [{ id: 'prod_123', name: 'Test Product' }] };
-            const mockId = "prod_123";
+            const mockId = 'prod_123';
+
             const mockStripe = {
                 products: {
                     update: jest.fn().mockResolvedValue(),
@@ -204,16 +205,16 @@ describe('Stripe Service', () => {
             jest.mock('stripe', () => {
                 return jest.fn(() => mockStripe);
             });
-           // listProducts.mockResolvedValue(mockProducts);
-            jest.mock('../services/bookService', () => ({
-                listProducts: jest.fn().mockResolvedValue(mockProducts),
-            }));
+
+            jest.spyOn(require('../utils/stripeUtils'), 'listProducts').mockResolvedValue(mockProducts);
 
             const { deleteProduct } = require('../services/stripeService');
 
             await deleteProduct(mockId);
 
             expect(mockStripe.products.update).toHaveBeenCalledWith('prod_123', { active: false });
+
+            jest.restoreAllMocks();
         });
 
         it('should not call stripe.products.update if product does not exist', async () => {
@@ -221,13 +222,12 @@ describe('Stripe Service', () => {
             const mockStripe = {
                 products: {
                     update: jest.fn(),
-                }
+                },
             };
 
             jest.mock('stripe', () => jest.fn(() => mockStripe));
-            jest.mock('../services/stripeService', () => ({
-                listProducts: jest.fn().mockResolvedValue(mockProducts),
-            }));
+
+            jest.spyOn(require('../utils/stripeUtils'), 'listProducts').mockResolvedValue(mockProducts);
 
             const { deleteProduct } = require('../services/stripeService');
 
@@ -238,21 +238,18 @@ describe('Stripe Service', () => {
 
         it('should throw an error if there is an issue deleting the product', async () => {
             const mockProducts = {
-                data: [
-                    { id: 'prod_123', name: 'Test Product' }
-                ]
+                data: [{ id: 'prod_123', name: 'Test Product' }],
             };
 
             const mockStripe = {
                 products: {
                     update: jest.fn().mockRejectedValue(new Error('Stripe error')),
-                }
+                },
             };
 
             jest.mock('stripe', () => jest.fn(() => mockStripe));
-            jest.mock('../services/stripeService', () => ({
-                listProducts: jest.fn().mockResolvedValue(mockProducts),
-            }));
+
+            jest.spyOn(require('../utils/stripeUtils'), 'listProducts').mockResolvedValue(mockProducts);
 
             const { deleteProduct } = require('../services/stripeService');
 
@@ -264,13 +261,12 @@ describe('Stripe Service', () => {
             const mockStripe = {
                 products: {
                     update: jest.fn(),
-                }
+                },
             };
 
             jest.mock('stripe', () => jest.fn(() => mockStripe));
-            jest.mock('../services/stripeService', () => ({
-                listProducts: jest.fn().mockRejectedValue(new Error('List products error')),
-            }));
+
+            jest.spyOn(require('../utils/stripeUtils'), 'listProducts').mockRejectedValue(new Error('List products error'));
 
             console.error = jest.fn();
 
@@ -284,37 +280,66 @@ describe('Stripe Service', () => {
 
 
     describe('createCheckoutSession', () => {
+        let mockStripe;
+      
+        beforeEach(() => {
+          jest.resetModules();
+          jest.restoreAllMocks();
+      
+          mockStripe = {
+            checkout: {
+              sessions: {
+                create: jest.fn(),
+              },
+            },
+          };
+      
+          jest.mock('stripe', () => jest.fn(() => mockStripe));
+        });
+      
         it('should create a checkout session and return it', async () => {
-            const mockSession = { id: 'sess_123', url: 'https://checkout.stripe.com/session_id' };
-            stripe.checkout.sessions.create.mockResolvedValue(mockSession);
-
-            req.body.stripePriceId = 'price_123';
-
-            await createCheckoutSession(req, res);
-
-            expect(stripe.checkout.sessions.create).toHaveBeenCalledWith({
-                line_items: [
-                    {
-                        price: 'price_123',
-                        quantity: 1,
-                    },
-                ],
-                mode: 'payment',
-                success_url: `${process.env.CLIENT_URL}/SuccessPage`,
-                cancel_url: `${process.env.CLIENT_URL}/CancelPage`,
-            });
-            expect(res.json).toHaveBeenCalledWith(mockSession.url);
+          const mockSession = { id: 'sess_123', url: 'https://checkout.stripe.com/session_id' };
+          mockStripe.checkout.sessions.create.mockResolvedValue(mockSession);
+      
+          const stripePriceId = 'price_123';
+      
+          const { createCheckoutSession } = require('../services/stripeService');
+          const session = await createCheckoutSession(stripePriceId);
+      
+          expect(mockStripe.checkout.sessions.create).toHaveBeenCalledWith({
+            line_items: [
+              {
+                price: stripePriceId,
+                quantity: 1,
+              },
+            ],
+            mode: 'payment',
+            success_url: `${process.env.CLIENT_URL}/SuccessPage`,
+            cancel_url: `${process.env.CLIENT_URL}/CancelPage`,
+          });
+          expect(session).toEqual(mockSession);
         });
-
-        it('should return an error if creating checkout session fails', async () => {
-            stripe.checkout.sessions.create.mockRejectedValue(new Error('Stripe error'));
-
-            req.body.stripePriceId = 'price_123';
-
-            await createCheckoutSession(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(500);
-            expect(res.json).toHaveBeenCalledWith({ error: 'Could not create checkout session in Stripe' });
+      
+        it('should throw an error if creating checkout session fails', async () => {
+          mockStripe.checkout.sessions.create.mockRejectedValue(new Error('Stripe error'));
+      
+          const stripePriceId = 'price_123';
+      
+          const { createCheckoutSession } = require('../services/stripeService');
+      
+          await expect(createCheckoutSession(stripePriceId)).rejects.toThrow('Stripe error');
+          expect(mockStripe.checkout.sessions.create).toHaveBeenCalledWith({
+            line_items: [
+              {
+                price: stripePriceId,
+                quantity: 1,
+              },
+            ],
+            mode: 'payment',
+            success_url: `${process.env.CLIENT_URL}/SuccessPage`,
+            cancel_url: `${process.env.CLIENT_URL}/CancelPage`,
+          });
         });
-    });
+      });
+      
 });
