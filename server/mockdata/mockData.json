@@ -1,24 +1,5 @@
 [
   {
-    "id": "22",
-    "title": "1984",
-    "author": "George Orwell",
-    "read": false,
-    "price": "11.49",
-    "stripePriceId": "price_1PkeX8RtZj5jJHBhzx1r6CY6",
-    "stripeProductId": null,
-    "updatedOn": false
-  },
-  {
-    "title": "Arthur the King  ",
-    "author": "Allan ",
-    "price": "19.49",
-    "read": false,
-    "id": "8",
-    "stripePriceId": "price_1Pkd6sRtZj5jJHBhiM2Bbzld",
-    "updatedOn": false
-  },
-  {
     "title": "New pack",
     "author": "Pami",
     "price": "11.49",
