@@ -45,11 +45,6 @@ const BooksList = () => {
     dispatch(deleteBook(id));
   };
 
-  // const handleCheckout = (book) => {
-  //   if (book) {
-  //     return (<CheckoutButton book={book} />)
-  //   }
-  // }
   if (loading) {
     return (<LoadingPage />)
   } else {
@@ -87,7 +82,6 @@ const BooksList = () => {
                 >
                   Delete
                 </button>
-                {/* <button className="checkout-btn" onClick={() => handleCheckout(book)}>Checkout</button> */}
                 <CheckoutButton book={book} />
               </div>
             </li>
