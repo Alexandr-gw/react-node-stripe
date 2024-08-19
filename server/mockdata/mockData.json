@@ -29,10 +29,10 @@
   {
     "title": "New grade",
     "author": "Leo",
-    "price": "23.2",
-    "read": true,
+    "price": "23.4",
+    "read": false,
     "id": "7a59566c-24a3-49c1-bcc6-bc995593c179",
     "stripePriceId": "price_1PpKkRRtZj5jJHBhvBODePwD",
-    "updatedOn": "2024-08-19T02:06:54.201Z"
+    "updatedOn": "2024-08-19T02:45:32.460Z"
   }
 ]
