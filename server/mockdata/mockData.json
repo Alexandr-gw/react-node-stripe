@@ -34,5 +34,13 @@
     "id": "7a59566c-24a3-49c1-bcc6-bc995593c179",
     "stripePriceId": "price_1PpKkRRtZj5jJHBhvBODePwD",
     "updatedOn": "2024-08-19T02:45:32.460Z"
+  },
+  {
+    "title": "New Book",
+    "author": "Author",
+    "price": 20,
+    "read": false,
+    "id": "4a30a93d-14d3-4685-a676-389a4bd99425",
+    "stripePriceId": "price_1PpiCZRtZj5jJHBhO8cBO4ZD"
   }
 ]
