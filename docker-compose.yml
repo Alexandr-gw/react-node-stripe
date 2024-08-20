@@ -5,20 +5,20 @@ services:
     build: ./server
     ports:
       - "8080:8080"
-    volumes:
-      - ./server:/paymentdev/server
     environment:
       - STRIPE_PUBLIC_KEY=pk_test_51PcoPzRtZj5jJHBhzOMGgFZW0h0ILDtnz6P8I3LQOiwrJ6lEuRhxw4Jll82t7lNgXVcwDM1bfOJ4xEXVzzZ5HM4q00vFmYTD72
       - STRIPE_SECRET_KEY=sk_test_51PcoPzRtZj5jJHBhiadIqOdURCUJwYCtIf0cwpt7wPYighDcQ92MlnE4ZJS2eUlcBoZPYWFmMEQO1DJUDkWMyYkK00ICJwlVlP
       - CLIENT_URL=http://localhost:3000
+    env_file:
+      - ./server/.env
 
   client:
     build: ./client
     ports:
       - "3000:3000"
-    volumes:
-      - ./client:/paymentdev/client
     environment:
       - REACT_APP_STRIPE_PUBLIC_KEY=pk_test_51PcoPzRtZj5jJHBhzOMGgFZW0h0ILDtnz6P8I3LQOiwrJ6lEuRhxw4Jll82t7lNgXVcwDM1bfOJ4xEXVzzZ5HM4q00vFmYTD72
       - REACT_APP_STRIPE_PRIVATE_KEY=sk_test_51PcoPzRtZj5jJHBhiadIqOdURCUJwYCtIf0cwpt7wPYighDcQ92MlnE4ZJS2eUlcBoZPYWFmMEQO1DJUDkWMyYkK00ICJwlVlP
+    env_file:
+      - ./client/.env
 
