@@ -15,7 +15,7 @@ async function addBook(req, res) {
   const book = req.body;
   try {
     const product = await addProduct(book);
-    const savedBook = bookService.addBook(book, product);
+    const savedBook = await bookService.addBook(book, product);
     res.status(201).json(savedBook);
   } catch (error) {
     console.error('Error adding book:->', error);
@@ -28,7 +28,7 @@ async function updateBook(req, res) {
   const { id } = req.params;
   try {
     await updateProduct(id, updatedBook);
-    const book = bookService.updateBook(id, updatedBook);
+    const book =  await bookService.updateBook(id, updatedBook);
     bookService.updateUpdatedOn(id, true);
     res.json(book);
   } catch (error) {

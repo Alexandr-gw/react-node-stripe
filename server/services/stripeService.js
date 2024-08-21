@@ -49,7 +49,8 @@ async function updateProduct(id, book) {
     await stripe.products.update(product.id, {
       default_price: price.id,
     });
-    const oldPriceId = getBooks().find(b => b.id === id).stripePriceId;
+    const books = await getBooks();
+    const oldPriceId = books.find(b => b.id === id).stripePriceId;
     await stripe.prices.update(oldPriceId, {
       active: false
     });

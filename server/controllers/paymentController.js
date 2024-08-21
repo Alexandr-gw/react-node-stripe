@@ -5,7 +5,7 @@ const handleCreateCheckoutSession = async (req, res) => {
   const { quantity, id } = req.body;
 
   try {
-    const books = getBooks();
+    const books = await getBooks();
     const book = books.find(book => book.id === id);
 
     if (!book) {
