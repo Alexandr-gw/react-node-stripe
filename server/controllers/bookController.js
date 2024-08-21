@@ -3,7 +3,7 @@ const { addProduct, updateProduct, deleteProduct } = require('../services/stripe
 
 async function getBooks(req, res) {
   try {
-    const books = bookService.getBooks();
+    const books = await bookService.getBooks();
     res.json(books);
   } catch (error) {
     console.error('Error fetching books:', error);

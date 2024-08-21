@@ -5,6 +5,7 @@ const bookRoutes = require('./routes/bookRoutes');
 const rootRoute = require('./routes/rootRoute');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const cors = require('cors');
+const { initializeDB } = require('./db');
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+initializeDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+})
