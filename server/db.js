@@ -1,9 +1,17 @@
-const { Sequelize } = require('sequelize');
+const dbConfig = require("./config/db.config");
+const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  dialect: 'postgres',
-  logging: false, 
+const sequelize = new Sequelize(dbConfig.DB_NAME, dbConfig.DB_USER, dbConfig.DB_PASSWORD, {
+  host: dbConfig.DB_HOST,
+  dialect: dbConfig.dialect,
+  logging: false,
+
+  pool: {
+    max: dbConfig.pool.max,
+    min: dbConfig.pool.min,
+    acquire: dbConfig.pool.acquire,
+    idle: dbConfig.pool.idle
+  }
 });
 
 async function initializeDB() {

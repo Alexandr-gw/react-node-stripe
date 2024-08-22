@@ -18,7 +18,7 @@ app.use('/', rootRoute);
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.DOCKER_PORT || 8080;
 
 initializeDB().then(() => {
   app.listen(PORT, () => {

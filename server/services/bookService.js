@@ -1,10 +1,21 @@
 const Book = require('../models/book');
 
-async function getBooks() {  
-  const data = await Book.findAll({ raw: true });  
-  return data;
-}
+async function getBooks() {
+  let books = await Book.findAll({ raw: true });
 
+  if (books.length === 0) {//To create default book
+    const newBook = await Book.create({
+      title: 'Default Book',
+      author: 'Default Author',
+      read: false,
+      stripePriceId: 'default_price_id'
+    });
+
+    books = await Book.findAll({ raw: true });
+  }
+
+  return books;
+}
 async function addBook(newBook, priceId) {
   newBook.stripePriceId = priceId.default_price;
   return await Book.create(newBook);
