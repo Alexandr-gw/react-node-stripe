@@ -7,6 +7,7 @@ services:
       - ./server/.env
     depends_on:
       - postgres
+      - postgres-test
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
@@ -32,7 +33,20 @@ services:
     ports:
       - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
     volumes:
-      - ./server/db:/var/lib/postgresql/data
+      - ./server/db/postgres:/var/lib/postgresql/data
+    env_file:
+      - ./server/.env
+  
+  postgres-test:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=$POSTGRESDB_USER
+      - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+      - POSTGRES_DB=$POSTGRESDB_NAME
+    ports:
+      - $POSTGRESDB_TEST_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+    volumes:
+      - ./server/db/test-db/postgres:/var/lib/postgresql/data
     env_file:
       - ./server/.env
 
