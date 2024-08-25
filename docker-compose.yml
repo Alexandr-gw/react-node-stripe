@@ -40,11 +40,12 @@ services:
   postgres-test:
     image: postgres:14
     environment:
-      - POSTGRES_USER=$POSTGRESDB_USER
+      - POSTGRES_USER=$POSTGRESDB_TEST_USER
       - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
-      - POSTGRES_DB=$POSTGRESDB_NAME
+      - POSTGRES_DB=$POSTGRESDB_TEST_NAME
+      - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
-      - $POSTGRESDB_TEST_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+      - $POSTGRESDB_TEST_LOCAL_PORT:$POSTGRESDB_TEST_DOCKER_PORT
     volumes:
       - ./server/db/test-db/postgres:/var/lib/postgresql/data
     env_file:
