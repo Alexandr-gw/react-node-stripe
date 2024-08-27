@@ -1,20 +1,17 @@
-const testDb = require('../config/db.test.js'); // Import the test DB configuration
+const testDb = require('../config/db-test.config.js'); // Import the test DB configuration
 const Book = require('../models/book');
 const { getBooks, addBook, updateBook, updateStripePriceId, updateUpdatedOn, deleteBook } = require('../services/bookService');
 
 describe('bookService Integration Tests', () => {
   beforeAll(async () => {
-    // Sync all models (this creates the tables)
     await testDb.sync({ force: true });
   });
 
   afterAll(async () => {
-    // Close the connection after all tests
     await testDb.close();
   });
 
   beforeEach(async () => {
-    // Clear the database before each test
     await Book.destroy({ where: {} });
   });
 
