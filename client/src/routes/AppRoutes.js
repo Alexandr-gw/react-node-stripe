@@ -1,13 +1,13 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from '../components/Home';
-import BooksList from '../components/BooksList';
-import LoadingPage from '../components/LoadingPage';
-import Book from '../components/Book';
-import BookDescription from '../components/BookDescription';
-import CancelPage from '../components/CancelPage';
-import SuccessPage from '../components/SuccessPage';
-import ErrorPage from '../components/ErrorPage';
+import Home from '../components/Home/Home';
+import BooksList from '../components/BooksList/BooksList';
+import LoadingPage from '../components/LoadingPage/LoadingPage';
+import Book from '../components/Book/Book';
+import BookDescription from '../components/BookDescription/BookDescription';
+import CancelPage from '../components/CancelPage/CancelPage';
+import SuccessPage from '../components/SuccessPage/SuccessPage';
+import ErrorPage from '../components/ErrorPage/ErrorPage';
 
 function AppRoutes() {
     return (

@@ -1,52 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Modal from "react-modal";
-import "../assets/css/BookModal.css";
+import { useBookForm } from "../../hooks/useBookForm";
+import "./BookModal.css";
 
 Modal.setAppElement("#root");
+
 const BookModal = ({ isOpen, onClose, onSubmit, book }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    author: "",
-    price: "",
-    read: true,
-  });
-
-  useEffect(() => {
-    if (book) {
-      setFormData(book);
-    } else {
-      setFormData({
-        title: "",
-        author: "",
-        price: "",
-        read: false,
-      });
-    }
-  }, [book]);
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleReset = () => {
-    setFormData({
-      title: "",
-      author: "",
-      price: "",
-      read: false,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
-    handleReset();
-    onClose();
-  };
+  const { formData, errors, handleChange, handleSubmit, handleReset } = useBookForm(onSubmit, book, onClose);
 
   return (
     <Modal
@@ -68,6 +28,7 @@ const BookModal = ({ isOpen, onClose, onSubmit, book }) => {
             value={formData.title}
             onChange={handleChange}
           />
+          {errors.title && <div className="error">{errors.title}</div>}
         </div>
         <div className="form-line">
           <label>Author:</label>
@@ -77,6 +38,7 @@ const BookModal = ({ isOpen, onClose, onSubmit, book }) => {
             value={formData.author}
             onChange={handleChange}
           />
+          {errors.author && <div className="error">{errors.author}</div>}
         </div>
         <div className="form-line">
           <label>Price:</label>
@@ -86,6 +48,7 @@ const BookModal = ({ isOpen, onClose, onSubmit, book }) => {
             value={formData.price}
             onChange={handleChange}
           />
+          {errors.price && <div className="error">{errors.price}</div>}
         </div>
         <div className="form-line">
           <label>

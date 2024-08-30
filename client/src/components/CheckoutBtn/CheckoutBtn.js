@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useStripe } from '@stripe/react-stripe-js';
-import { checkoutAction } from '../store/actions/actionsStripe';
+import { checkoutAction } from '../../store/actions/actionsStripe';
 
 const CheckoutButton = ({ book }) => {
   const stripe = useStripe();

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBooks, addBook, updateBook, deleteBook } from "../store/actions/actionsBook";
-import BookModal from "./BookModal";
-import CheckoutButton from './CheckoutBtn';
-import LoadingPage from "./LoadingPage";
+import { getBooks, addBook, updateBook, deleteBook } from "../../store/actions/actionsBook";
+import BookModal from "../BookModal/BookModal";
+import CheckoutButton from '../CheckoutBtn/CheckoutBtn';
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const BooksList = () => {
   const dispatch = useDispatch();
