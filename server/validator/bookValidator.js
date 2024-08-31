@@ -1,6 +1,15 @@
 const Joi = require('joi');
 
 const bookSchema = Joi.object({
+  id: Joi.string().guid({ version: 'uuidv4' }).optional().messages({
+    'string.guid': 'ID must be a valid UUID',
+  }),
+  stripePriceId: Joi.string().optional().messages({
+    'string.base': 'Stripe Price ID must be a string',
+  }),
+  updatedOn: Joi.date().allow(null).optional().messages({
+    'date.base': 'Updated On must be a valid date',
+  }),
   title: Joi.string().required().messages({
     'string.empty': 'Title is required',
     'any.required': 'Title is a mandatory field'

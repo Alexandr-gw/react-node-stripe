@@ -1,11 +1,9 @@
 const express = require('express');
-const dotenv = require('./dotenvLoad');
+const cors = require('cors');
 const paymentRoutes = require('./routes/paymentRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const rootRoute = require('./routes/rootRoute');
 const { errorHandler } = require('./middleware/errorMiddleware');
-const cors = require('cors');
-const { initializeDB } = require('./db');
 
 const app = express();
 
@@ -18,10 +16,4 @@ app.use('/', rootRoute);
 
 app.use(errorHandler);
 
-const PORT = process.env.DOCKER_PORT || 8080;
-
-initializeDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-})
+module.exports = app;
