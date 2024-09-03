@@ -8,6 +8,9 @@ import BookDescription from '../components/BookDescription/BookDescription';
 import CancelPage from '../components/CancelPage/CancelPage';
 import SuccessPage from '../components/SuccessPage/SuccessPage';
 import ErrorPage from '../components/ErrorPage/ErrorPage';
+import Login from '../components/Auth/Login/Login';
+import Registration from '../components/Auth/Registration/Registration';
+import AdminPanel from '../components/AdminPanel/AdminPanel';
 
 function AppRoutes() {
     return (
@@ -21,6 +24,9 @@ function AppRoutes() {
             <Route path="LoadingPage" element={<LoadingPage />} />
             <Route path="SuccessPage" element={<SuccessPage />} />
             <Route path="CancelPage" element={<CancelPage />} />
+            <Route path="Login" element={<Login />} />
+            <Route path="Registration" element={<Registration />} />
+            <Route path="AdminPanel" element={<AdminPanel />} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>
     );

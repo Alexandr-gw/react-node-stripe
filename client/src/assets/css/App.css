@@ -22,13 +22,6 @@
   width: 90%;
 }
 
-.header {
-  display: flex;
-  flex-direction: row;
-  width: 30%;
-  justify-content: space-around;
-}
-
 /* Book list */
 .book-header-wrapper {
   display: flex;

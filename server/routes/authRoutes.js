@@ -9,6 +9,9 @@ router.post('/register', register);
 router.post('/login', login);
 router.post('/verify-token', verifyAndRenewToken);
 
+
+//use as middleware for bookRoutes  
+
 router.get('/admin', authenticateToken, authorizeRole(['admin']), (req, res) => {
     res.json({ message: 'Welcome to the admin panel' });
 });

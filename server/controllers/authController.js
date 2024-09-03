@@ -42,9 +42,9 @@ const login = async (req, res) => {
 const verifyAndRenewToken = async (req, res) => {
     const { token } = req.body;
     try {
-        if (!token) {
-            return res.status(401).json({ message: 'No token provided' });
-        }
+   if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
+    }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
