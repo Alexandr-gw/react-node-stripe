@@ -11,6 +11,7 @@ import ErrorPage from '../components/ErrorPage/ErrorPage';
 import Login from '../components/Auth/Login/Login';
 import Registration from '../components/Auth/Registration/Registration';
 import AdminPanel from '../components/AdminPanel/AdminPanel';
+import AccessControl from '../components/AccessControl/AccessControl';
 
 function AppRoutes() {
     return (
@@ -26,7 +27,8 @@ function AppRoutes() {
             <Route path="CancelPage" element={<CancelPage />} />
             <Route path="Login" element={<Login />} />
             <Route path="Registration" element={<Registration />} />
-            <Route path="AdminPanel" element={<AdminPanel />} />
+            <Route path="AdminPanel" element={
+                <AccessControl allowedRoles={['admin']}><AdminPanel /></AccessControl>} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>
     );
