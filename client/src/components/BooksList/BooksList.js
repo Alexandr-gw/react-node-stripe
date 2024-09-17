@@ -4,9 +4,11 @@ import { getBooks, addBook, updateBook, deleteBook } from "../../store/actions/a
 import BookModal from "../BookModal/BookModal";
 import CheckoutButton from '../CheckoutBtn/CheckoutBtn';
 import LoadingPage from "../LoadingPage/LoadingPage";
+import useRole from "../../hooks/useRole";
 
 const BooksList = () => {
   const dispatch = useDispatch();
+  const role = useRole();
   const books = useSelector((state) => state.books.books);
   const loading = useSelector(state => state.books.loading);
 
@@ -58,9 +60,9 @@ const BooksList = () => {
             <h4>Read</h4>
             <h4>Price</h4>
           </div>
-          <button onClick={() => handleAddClick()} className="add-book-btn">
+          {role === 'admin' && <button onClick={() => handleAddClick()} className="add-book-btn">
             Add Book
-          </button>
+          </button>}
         </div>
         <ul className="book-list">
           {books.map((book, index) => (
@@ -72,16 +74,16 @@ const BooksList = () => {
                 <h5>${book.price}</h5>
               </div>
               <div className="book-btns">
-                <button
+                {role === 'admin' && <button
                   onClick={() => handleEditClick(book)}
                   className="edit-btn">  Edit
-                </button>
-                <button
+                </button>}
+                {role === 'admin' && <button
                   className="delete-btn"
                   onClick={() => handleDeleteBook(book.id)}
                 >
                   Delete
-                </button>
+                </button>}
                 <CheckoutButton book={book} />
               </div>
             </li>

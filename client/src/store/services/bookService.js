@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const API_URL = process.env.NODE_API_URL || 'http://localhost:8080/api/books';
 
@@ -8,33 +9,42 @@ const getBooks = async () => {
     return response.data;
   } catch (error) {
     console.error('Error fetching books:', error);
-    return []; 
+    return [];
   }
 };
 
 const addBook = async (book) => {
+const authInterceptorToken = Cookies.get('token');
   try {
-    const response = await axios.post(API_URL, book);
+    const response = await axios.post(API_URL, book, {
+      headers: { Authorization: `Bearer ${authInterceptorToken}` }
+    });
     return response.data;
   } catch (error) {
     console.error('Error adding book:', error);
-    return null; 
+    return null;
   }
 };
 
 const updateBook = async (id, book) => {
+const authInterceptorToken = Cookies.get('token');
   try {
-    const response = await axios.put(`${API_URL}/${id}`, book);
+    const response = await axios.put(`${API_URL}/${id}`, book, {
+      headers: { Authorization: `Bearer ${authInterceptorToken}` }
+    });
     return response.data;
   } catch (error) {
     console.error('Error updating book:', error);
-    return null; 
+    return null;
   }
 };
 
 const deleteBook = async (id) => {
+const authInterceptorToken = Cookies.get('token');
   try {
-    await axios.delete(`${API_URL}/${id}`);
+    await axios.delete(`${API_URL}/${id}`, {
+      headers: { Authorization: `Bearer ${authInterceptorToken}` }
+    });
   } catch (error) {
     console.error('Error deleting book:', error);
   }

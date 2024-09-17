@@ -1,5 +1,6 @@
 const { createCheckoutSession, findProduct } = require('../services/stripeService');
 const { getBooks } = require('../services/bookService');
+const { StatusCodes } = require('http-status-codes');
 
 const handleCreateCheckoutSession = async (req, res) => {
   const { quantity, id } = req.body;
@@ -9,7 +10,7 @@ const handleCreateCheckoutSession = async (req, res) => {
     const book = books.find(book => book.id === id);
 
     if (!book) {
-      return res.status(404).json({ error: 'Product not found in mock data' });
+      return res.status(StatusCodes.NOT_FOUND).json({ error: 'Product not found in mock data' });
     }
 
     let newBook;
@@ -17,11 +18,11 @@ const handleCreateCheckoutSession = async (req, res) => {
       newBook = await findProduct(book);
     } catch (error) {
       console.error('Error finding product in Stripe:', error);
-      return res.status(500).json({ error: 'Error finding product in Stripe' });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Error finding product in Stripe' });
     }
 
     if (!newBook) {
-      return res.status(404).json({ error: 'Product not found in Stripe' });
+      return res.status(StatusCodes.NOT_FOUND).json({ error: 'Product not found in Stripe' });
     }
 
     let session;
@@ -29,12 +30,12 @@ const handleCreateCheckoutSession = async (req, res) => {
       session = await createCheckoutSession(newBook.default_price, quantity);
     } catch (error) {
       console.error('Error creating checkout session in Stripe:', error);
-      return res.status(500).json({ error: 'Error creating checkout session in Stripe' });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Error creating checkout session in Stripe' });
     }
-    res.json(session.url);
+    res.status(StatusCodes.OK).json(session.url);
   } catch (error) {
     console.error('Error handling create checkout session:', error);
-    res.status(500).json({ error: 'An error occurred while creating the checkout session' });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'An error occurred while creating the checkout session' });
   }
 };
 

@@ -1,16 +1,20 @@
 const jwt = require('jsonwebtoken');
+const { StatusCodes } = require('http-status-codes');
 require('dotenv').config();
 
 const authenticateToken = (req, res, next) => {
-    const token = req.query['authorization']?.split(' ')[1];
+    const tokenFromQuery = req.query['authorization']?.split(' ')[1];
+    const tokenFromHeader = req.headers['authorization']?.split(' ')[1];
+    
+    const token = tokenFromHeader || tokenFromQuery;
 
     if (!token) {
-        return res.status(401).json({ message: 'Token not provided' });
+        return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Token not provided' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).json({ message: 'Invalid or expired token' });
+            return res.status(StatusCodes.FORBIDDEN).json({ message: 'Invalid or expired token' });
         }
         req.user = user;
         next();

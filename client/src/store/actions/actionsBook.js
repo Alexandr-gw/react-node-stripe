@@ -12,7 +12,7 @@ export const getBooks = () => async dispatch => {
     const data = await bookService.getBooks();
     dispatch({
       type: GET_BOOKS,
-      payload: data,
+      payload: data || {},
     });
   } catch (err) {
     dispatch({
@@ -27,7 +27,7 @@ export const addBook = (book) => async dispatch => {
     const data = await bookService.addBook(book);
     dispatch({
       type: ADD_BOOK,
-      payload: data,
+      payload: data || {},
     });
   } catch (err) {
     dispatch({
@@ -38,11 +38,11 @@ export const addBook = (book) => async dispatch => {
 };
 
 export const updateBook = (id, book) => async dispatch => {
-   try {
+  try {
     const data = await bookService.updateBook(id, book);
     dispatch({
       type: UPDATE_BOOK,
-      payload: data,
+      payload: data || {},
     });
   } catch (err) {
     dispatch({
