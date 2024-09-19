@@ -12,5 +12,10 @@ export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 
+export const GET_USERS = 'GET_USERS';
+export const EDIT_USER = 'EDIT_USER';
+export const DELETE_USER = 'DELETE_USER';
+export const USER_ERROR = 'USER_ERROR';
+
 export const LOGOUT = 'LOGOUT';
 export const TOKEN_VERIFIED = 'TOKEN_VERIFIED';
