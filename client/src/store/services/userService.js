@@ -6,7 +6,7 @@ const API_URL = process.env.NODE_API_URL || 'http://localhost:8080/api/user/user
 export const getUser = async () => {
   const authInterceptorToken = Cookies.get('token');
   try {
-    const response = await axios.get(`${API_URL}/`, {
+    const response = await axios.get(`${API_URL}`, {
       headers: { Authorization: `Bearer ${authInterceptorToken}` }
     });
     return response.data;

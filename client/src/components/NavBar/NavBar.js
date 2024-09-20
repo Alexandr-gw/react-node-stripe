@@ -8,6 +8,9 @@ const NavBar = () => {
     return (
         <div className="header">
             <div>
+                <div>Logo</div>
+            </div>
+            <div className="navButtons">
                 <Link data-testid="HomePage" to="/">Home</Link>
                 <Link data-testid="BooksList" to="/BooksList">Books</Link>
                 <AdminPanelBtn />

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutAction, tokenVerified } from "../../store/actions/actionsAuth";
 import authService from "../../store/services/authService";
 import { jwtDecode } from "jwt-decode";
+import './AdminPanelBtn.css';
 
 
 const AdminPanelBtn = () => {
@@ -39,7 +40,7 @@ const AdminPanelBtn = () => {
         <div>
             {userRole === 'admin' ? (
                 <>
-                    <button onClick={handleAdminPanel}>AdminPanel</button>
+                    <button onClick={handleAdminPanel} className="admin-panel-btn">Admin Panel</button>
                 </>
             ) : (
                 <></>
