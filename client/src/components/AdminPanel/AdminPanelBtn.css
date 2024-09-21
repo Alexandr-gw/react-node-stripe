@@ -1,9 +1,0 @@
-.admin-panel-btn{
-    background-color: transparent;
-    border: none;
-    transition: color .3s linear;
-}
-
-.admin-panel-btn:hover{
-    color: darksalmon;
-}

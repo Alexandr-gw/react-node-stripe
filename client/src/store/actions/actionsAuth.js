@@ -21,7 +21,8 @@ export const registerSuccess = () => ({ type: REGISTER_SUCCESS });
 export const registerFailure = (error) => ({ type: REGISTER_FAILURE, payload: error });
 
 export const tokenVerified = (newToken) => ({ type: TOKEN_VERIFIED, payload: newToken });
-export const logout = () => ({ type: LOGOUT });
+
+export const logoutSuccess = () => ({ type: LOGOUT });
 
 export const login = (email, password) => async (dispatch) => {
     dispatch(loginRequest());
@@ -55,7 +56,7 @@ export const verifyToken = () => async (dispatch) => {
     }
 };
 
-export const performLogout = () => (dispatch) => {
+export const logout = () => (dispatch) => {
     authService.logout();
-    dispatch(logout());
+    dispatch(logoutSuccess());
 };
