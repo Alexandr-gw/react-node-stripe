@@ -25,13 +25,13 @@ async function addProduct(book) {
       description: book.description || 'No description',
       default_price_data: {
         currency: 'cad',
-        unit_amount: book.price * 100,
+        unit_amount: Math.round(book.price * 100).toFixed(0),
       }
     });
     return product
   } catch (error) {
     console.error('Error creating product in Stripe:', error);
-    throw new Error('Could not create product in Stripe');
+    return null
   }
 }
 
@@ -43,13 +43,14 @@ async function updateProduct(id, book) {
     });
     const price = await stripe.prices.create({
       currency: 'cad',
-      unit_amount: Math.round(book.price * 100),
+      unit_amount: Math.round(book.price * 100).toFixed(0),
       product: product.id
     });
     await stripe.products.update(product.id, {
       default_price: price.id,
     });
-    const oldPriceId = getBooks().find(b => b.id === id).stripePriceId;
+    const books = await getBooks();
+    const oldPriceId = books.find(b => b.id === id).stripePriceId;
     await stripe.prices.update(oldPriceId, {
       active: false
     });

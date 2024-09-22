@@ -6,29 +6,6 @@
   font-size: 300%;
 }
 
-.wrapper>div:nth-child(1) a:link,
-.wrapper>div:nth-child(1) a:visited {
-  text-decoration: none;
-  color: black;
-  transition: color .3s linear;
-}
-
-.wrapper>div:nth-child(1) a:hover {
-  color: darksalmon;
-}
-
-.wrapper>div:nth-child(2) {
-  margin-top: 1em;
-  width: 90%;
-}
-
-.header {
-  display: flex;
-  flex-direction: row;
-  width: 30%;
-  justify-content: space-around;
-}
-
 /* Book list */
 .book-header-wrapper {
   display: flex;

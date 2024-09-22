@@ -3,22 +3,53 @@ version: '3.8'
 services:
   server:
     build: ./server
-    ports:
-      - "8080:8080"
-    environment:
-      - STRIPE_PUBLIC_KEY=pk_test_51PcoPzRtZj5jJHBhzOMGgFZW0h0ILDtnz6P8I3LQOiwrJ6lEuRhxw4Jll82t7lNgXVcwDM1bfOJ4xEXVzzZ5HM4q00vFmYTD72
-      - STRIPE_SECRET_KEY=sk_test_51PcoPzRtZj5jJHBhiadIqOdURCUJwYCtIf0cwpt7wPYighDcQ92MlnE4ZJS2eUlcBoZPYWFmMEQO1DJUDkWMyYkK00ICJwlVlP
-      - CLIENT_URL=http://localhost:3000
     env_file:
       - ./server/.env
+    depends_on:
+      - postgres
+      - postgres-test
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_USER=$POSTGRESDB_USER
+      - DB_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+      - DB_NAME=$POSTGRESDB_NAME
+      - DB_PORT=$POSTGRESDB_DOCKER_PORT
 
   client:
     build: ./client
     ports:
-      - "3000:3000"
-    environment:
-      - REACT_APP_STRIPE_PUBLIC_KEY=pk_test_51PcoPzRtZj5jJHBhzOMGgFZW0h0ILDtnz6P8I3LQOiwrJ6lEuRhxw4Jll82t7lNgXVcwDM1bfOJ4xEXVzzZ5HM4q00vFmYTD72
-      - REACT_APP_STRIPE_PRIVATE_KEY=sk_test_51PcoPzRtZj5jJHBhiadIqOdURCUJwYCtIf0cwpt7wPYighDcQ92MlnE4ZJS2eUlcBoZPYWFmMEQO1DJUDkWMyYkK00ICJwlVlP
+      - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
     env_file:
       - ./client/.env
 
+  postgres:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=$POSTGRESDB_USER
+      - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+      - POSTGRES_DB=$POSTGRESDB_NAME
+    ports:
+      - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+    volumes:
+      - ./server/db/postgres:/var/lib/postgresql/data
+    env_file:
+      - ./server/.env
+  
+  postgres-test:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=$POSTGRESDB_TEST_USER
+      - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+      - POSTGRES_DB=$POSTGRESDB_TEST_NAME
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - $POSTGRESDB_TEST_LOCAL_PORT:$POSTGRESDB_TEST_DOCKER_PORT
+    volumes:
+      - ./server/db/test-db/postgres:/var/lib/postgresql/data
+    env_file:
+      - ./server/.env
+
+volumes:
+  postgres_data:

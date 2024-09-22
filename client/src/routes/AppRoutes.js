@@ -1,13 +1,17 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from '../components/Home';
-import BooksList from '../components/BooksList';
-import LoadingPage from '../components/LoadingPage';
-import Book from '../components/Book';
-import BookDescription from '../components/BookDescription';
-import CancelPage from '../components/CancelPage';
-import SuccessPage from '../components/SuccessPage';
-import ErrorPage from '../components/ErrorPage';
+import Home from '../components/Home/Home';
+import BooksList from '../components/BooksList/BooksList';
+import LoadingPage from '../components/LoadingPage/LoadingPage';
+import Book from '../components/Book/Book';
+import BookDescription from '../components/BookDescription/BookDescription';
+import CancelPage from '../components/CancelPage/CancelPage';
+import SuccessPage from '../components/SuccessPage/SuccessPage';
+import ErrorPage from '../components/ErrorPage/ErrorPage';
+import Login from '../components/Auth/Login/Login';
+import Registration from '../components/Auth/Registration/Registration';
+import AdminPanel from '../components/AdminPanel/AdminPanel';
+import AccessControl from '../components/AccessControl/AccessControl';
 
 function AppRoutes() {
     return (
@@ -21,6 +25,10 @@ function AppRoutes() {
             <Route path="LoadingPage" element={<LoadingPage />} />
             <Route path="SuccessPage" element={<SuccessPage />} />
             <Route path="CancelPage" element={<CancelPage />} />
+            <Route path="Login" element={<Login />} />
+            <Route path="Registration" element={<Registration />} />
+            <Route path="AdminPanel" element={
+                <AccessControl allowedRoles={['admin']}><AdminPanel /></AccessControl>} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>
     );
