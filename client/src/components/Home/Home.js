@@ -1,7 +1,8 @@
 import React from 'react';
+import './Home.css';
 function Home() {
   return (
-    <div>
+    <div className="intro">
       Home of many books
     </div>
   );

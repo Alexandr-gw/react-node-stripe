@@ -5,6 +5,7 @@ import BookModal from "../BookModal/BookModal";
 import CheckoutButton from '../CheckoutBtn/CheckoutBtn';
 import LoadingPage from "../LoadingPage/LoadingPage";
 import useRole from "../../hooks/useRole";
+import './BooksList.css';
 
 const BooksList = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const BooksList = () => {
     return (<LoadingPage />)
   } else {
     return (
-      <div>
+      <div className="books-list-wrapper">
         <h3>Books</h3>
         <div className="book-header-wrapper">
           <div className="book-header">

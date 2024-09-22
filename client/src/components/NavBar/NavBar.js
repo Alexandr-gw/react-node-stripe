@@ -27,6 +27,7 @@ const NavBar = () => {
             setUserRole(jwtDecode(tokenCookie).role);
         }else{
             setUserRole('');
+            setIsAuthenticated(false);
         }
     }, [token, dispatch]);
 
@@ -41,14 +42,14 @@ const NavBar = () => {
             <div>
                 <div>Logo</div>
             </div>
-            <div className="navButtons">
+            <div className="nav-btns">
                 <Link data-testid="HomePage" to="/">Home</Link>
                 <Link data-testid="BooksList" to="/BooksList">Books</Link>
                 {userRole === 'admin' && (
                     <Link data-testid="AdminPanel" to="/AdminPanel">Admin Panel</Link>
                 )}
             </div>
-            <div>
+            <div className="cart-login-btns">
                 {isAuthenticated ? (
                     <>
                         <span>{userRole}</span>
