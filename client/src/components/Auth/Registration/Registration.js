@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register as registerAction } from '../../../store/actions/actionsAuth';
 import { Link, useNavigate } from 'react-router-dom';
 import LoadingPage from '../../LoadingPage/LoadingPage';
+import './Registration.css';
 
 const Register = () => {
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Register = () => {
         return <LoadingPage />;
     } else {
         return (
-            <div>
+            <div className="registration-wrapper">
                 <h2>Register</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
