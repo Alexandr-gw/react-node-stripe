@@ -1,6 +1,6 @@
-const dotenv = require('./dotenvLoad');
-const { initializeDB } = require('./db');
-const app = require('./app');
+const dotenv = require('../dotenvLoad');
+const { initializeDB } = require('../db');
+const app = require('../app');
 
 const PORT = process.env.PORT || 8080;
 
