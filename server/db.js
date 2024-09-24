@@ -4,6 +4,7 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.development.DB_NAME, dbConfig.development.DB_USER, dbConfig.development.DB_PASSWORD, {
   host: dbConfig.development.DB_HOST,
   dialect: dbConfig.development.dialect,
+  dialectModule: require("pg"),
   logging: false,
   port: dbConfig.development.DB_port,
   pool: {

@@ -6,7 +6,6 @@ module.exports = {
     DB_NAME: process.env.DB_NAME,
     DB_port: process.env.DB_PORT,
     dialect: "postgres",
-    dialectModule: require('pg'),
     pool: {
       max: 5,
       min: 0,
