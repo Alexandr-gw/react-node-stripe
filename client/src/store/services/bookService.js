@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_URL = process.env.REACT_APP_BOOK || 'http://localhost:8080/api/books';
+const API_URL = process.env.REACT_APP_BOOK;
 
 const getBooks = async () => {
   try {
