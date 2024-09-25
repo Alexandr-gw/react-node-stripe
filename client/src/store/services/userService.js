@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_URL = process.env.NODE_API_URL || 'http://localhost:8080/api/user/users';
+const API_URL = process.env.REACT_APP_USER || 'http://localhost:8080/api/user/users';
 
 export const getUser = async () => {
   const authInterceptorToken = Cookies.get('token');

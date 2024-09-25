@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NODE_API_URL || 'http://localhost:8080/api/payment/create-checkout-session';
+const API_URL = process.env.REACT_APP_STRIPE || 'http://localhost:8080/api/payment/create-checkout-session';
 
 export const createCheckout = async (paymentData) => {
   try {
