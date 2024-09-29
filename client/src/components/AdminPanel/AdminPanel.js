@@ -20,7 +20,7 @@ const UserList = () => {
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);//take a look into user.slice -> looks like need a bit of time to get this info otherwise getting 
+    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser) || 0;//take a look into user.slice -> looks like need a bit of time to get this info otherwise getting 
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
