@@ -1,5 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { updateStripePriceId, updateUpdatedOn, getBooks } = require('../services/bookService');
+const { updateStripePriceId, updateUpdatedOn, getBooks, getBookById } = require('../services/bookService');
 const { listProducts } = require('../utils/stripeUtils');
 const { v4: uuidv4 } = require('uuid');
 
@@ -78,20 +78,22 @@ async function deleteProduct(id) {
   }
 }
 
-async function createCheckoutSession(stripePriceId) {
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price: stripePriceId,
-        quantity: 1,
-      },
-    ],
-    mode: 'payment',
-    success_url: `${process.env.CLIENT_URL}/SuccessPage`,
-    cancel_url: `${process.env.CLIENT_URL}/CancelPage`,
-  });
-  return session;
-}
+const createCheckoutSession = async (cartItems) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: cartItems,
+      mode: 'payment',
+      success_url: `${process.env.CLIENT_URL}/SuccessPage`,
+      cancel_url: `${process.env.CLIENT_URL}/CancelPage`,
+    });
+
+    return session;
+  } catch (error) {
+    console.error('Error creating Stripe session:', error);
+    throw new Error('Failed to create Stripe checkout session');
+  }
+};
 
 module.exports = {
   createCheckoutSession,

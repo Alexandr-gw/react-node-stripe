@@ -49,29 +49,61 @@ const addToCart = async (userId, productId, quantity, price) => {
   return cartItem;
 };
 
-const updateCartItem = async (itemId, quantity) => {
-  const cartItem = await CartItem.findByPk(itemId);
-  if (!cartItem) {
-    throw new Error('Cart item not found');
+const updateCartItem = async (userId, productId, quantity) => {
+  try {
+    const cartData = await getCart(userId);
+    const cartId = cartData.cart.id;
+    const cartItem = await CartItem.findOne({ where: { cartId, productId } });
+
+    if (!cartItem) {
+      throw new Error('Cart item not found');
+    }
+
+    await cartItem.update({ quantity });
+
+    return cartItem;
+  } catch (error) {
+    console.error('Error updating cart item:', error);
+    throw new Error('Failed to update cart item');
   }
-  await cartItem.update({ quantity });
-  return cartItem;
 };
 
-const removeFromCart = async (itemId) => {
-  const cartItem = await CartItem.findByPk(itemId);
-  if (!cartItem) {
-    throw new Error('Cart item not found');
+const removeFromCart = async (userId, productId) => {
+  try {
+    const cartData = await getCart(userId);
+    const cartId = cartData.cart.id;
+    const cartItem = await CartItem.findOne({ where: { cartId, productId } });
+
+    if (!cartItem) {
+      throw new Error('Cart item not found');
+    }
+
+    await cartItem.destroy();
+
+    return { message: 'Item removed from cart successfully' };
+  } catch (error) {
+    console.error('Error removing item from cart:', error);
+    throw new Error('Failed to remove item from cart');
   }
-  await cartItem.destroy();
 };
 
 const clearCart = async (userId) => {
-  const cart = await Cart.findOne({ where: { userId } });
-  if (!cart) {
-    throw new Error('Cart not found');
+  try {
+    const cartData = await getCart(userId);
+    const cartId = cartData.cart.id;
+    const cartItems = await CartItem.findAll({ where: { cartId } });
+
+    if (!cartItems || cartItems.length === 0) {
+      return { message: 'Cart is already empty' };
+    }
+
+    await CartItem.destroy({ where: { cartId } });
+
+    return { message: 'Cart cleared successfully' };
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+    throw new Error('Failed to clear cart');
   }
-  await CartItem.destroy({ where: { cartId: cart.id } });
 };
 
 module.exports = {

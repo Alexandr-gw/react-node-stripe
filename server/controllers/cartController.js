@@ -14,7 +14,7 @@ const getCart = async (req, res) => {
 
 const addToCart = async (req, res) => {
   const userId = req.user.userId;
-  const { items } = req.body; 
+  const { items } = req.body;
 
   try {
     if (!items || items.length === 0) {
@@ -47,10 +47,11 @@ const addToCart = async (req, res) => {
 };
 
 const updateCartItem = async (req, res) => {
+  const userId = req.user.userId;
   const { itemId } = req.params;
   const { quantity } = req.body;
   try {
-    const updatedItem = await cartService.updateCartItem(itemId, quantity);
+    const updatedItem = await cartService.updateCartItem(userId, itemId, quantity);
     res.status(StatusCodes.OK).json(updatedItem);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Failed to update cart item' });
@@ -58,9 +59,10 @@ const updateCartItem = async (req, res) => {
 };
 
 const removeFromCart = async (req, res) => {
+  const userId = req.user.userId;
   const { itemId } = req.params;
   try {
-    await cartService.removeFromCart(itemId);
+    await cartService.removeFromCart(userId, itemId);
     res.status(StatusCodes.OK).json({ message: 'Item removed from cart' });
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Failed to remove item from cart' });
