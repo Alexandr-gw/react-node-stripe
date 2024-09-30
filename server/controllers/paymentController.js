@@ -1,45 +1,70 @@
-const { createCheckoutSession, findProduct } = require('../services/stripeService');
-const { getBooks } = require('../services/bookService');
 const { StatusCodes } = require('http-status-codes');
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
+const { getCart } = require('../services/cartService');
+const { createCheckoutSession } = require('../services/stripeService');
+const { getBookById } = require('../services/bookService');
+const { extractTokenAndUserId } = require('../utils/extractTokenAndUserId');
+const { cartItemSchema } = require('../validator/cartValidator');
 
 const handleCreateCheckoutSession = async (req, res) => {
-  const { quantity, id } = req.body;
+  let cartItems;
+  let userId;
+  const authorization = req.headers.authorization || req.query.authorization;
 
   try {
-    const books = await getBooks();
-    const book = books.find(book => book.id === id);
+    if (authorization) {
+      userId = extractTokenAndUserId(authorization);
 
-    if (!book) {
-      return res.status(StatusCodes.NOT_FOUND).json({ error: 'Product not found in mock data' });
+      const { cart } = await getCart(userId);
+      if (!cart || cart.items.length === 0) {
+        return res.status(StatusCodes.NOT_FOUND).json({ error: 'Cart is empty' });
+      }
+
+      cartItems = await Promise.all(cart.items.map(async (item) => {
+        const book = await getBookById(item.productId);
+        if (!book.stripePriceId) {
+          throw new Error(`Book with ID ${item.productId} does not have a Stripe price ID`);
+        }
+        return {
+          price: book.stripePriceId,
+          quantity: item.quantity,
+        };
+      }));
+    } else {
+      cartItems = req.body.items;
+
+      if (!cartItems || cartItems.length === 0) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Cart is empty' });
+      }
+
+      const { error } = Joi.array().items(cartItemSchema).validate(cartItems);
+      if (error) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ error: error.details[0].message });
+      }
+
+      cartItems = await Promise.all(cartItems.map(async (item) => {
+        const book = await getBookById(item.productId);
+        if (!book.stripePriceId) {
+          throw new Error(`Book with ID ${item.productId} does not have a Stripe price ID`);
+        }
+        return {
+          price: book.stripePriceId,
+          quantity: item.quantity,
+        };
+      }));
     }
 
-    let newBook;
-    try {
-      newBook = await findProduct(book);
-    } catch (error) {
-      console.error('Error finding product in Stripe:', error);
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Error finding product in Stripe' });
-    }
+    const session = await createCheckoutSession(cartItems);
+    return res.status(StatusCodes.OK).json({ url: session.url });
 
-    if (!newBook) {
-      return res.status(StatusCodes.NOT_FOUND).json({ error: 'Product not found in Stripe' });
-    }
-
-    let session;
-    try {
-      session = await createCheckoutSession(newBook.default_price, quantity);
-    } catch (error) {
-      console.error('Error creating checkout session in Stripe:', error);
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Error creating checkout session in Stripe' });
-    }
-    res.status(StatusCodes.OK).json(session.url);
   } catch (error) {
-    console.error('Error handling create checkout session:', error);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'An error occurred while creating the checkout session' });
+    console.error('Error creating checkout session:', error.message);
+    if (error.message === 'Invalid or expired token') {
+      return res.status(StatusCodes.UNAUTHORIZED).json({ error: 'Unauthorized access' });
+    }
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Failed to create checkout session' });
   }
 };
 
-
-module.exports = {
-  handleCreateCheckoutSession,
-};
+module.exports = { handleCreateCheckoutSession };

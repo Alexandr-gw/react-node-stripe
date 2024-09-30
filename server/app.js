@@ -5,6 +5,7 @@ const bookRoutes = require('./routes/bookRoutes');
 const rootRoute = require('./routes/rootRoute');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 const { errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
@@ -16,6 +17,7 @@ app.use('/api/payment', paymentRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/cart', cartRoutes);
 app.use('/', rootRoute);
 
 app.use(errorHandler);

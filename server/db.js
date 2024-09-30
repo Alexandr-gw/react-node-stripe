@@ -1,32 +1,39 @@
 const dbConfig = require("./config/db.config");
 const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize(process.env.POSTGRES_URL, {
-  dialect: 'postgres',
-  dialectModule: require("pg"),
-  logging: false,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-});
+let sequelize;
 
-//development
-// const sequelize = new Sequelize(dbConfig.development.DB_NAME, dbConfig.development.DB_USER, dbConfig.development.DB_PASSWORD, {
-//   host: dbConfig.development.DB_HOST,
-//   dialect: dbConfig.development.dialect,
-//   dialectModule: require("pg"),
-//   logging: false,
-//   port: dbConfig.development.DB_port,
-//   pool: {
-//     max: dbConfig.development.pool.max,
-//     min: dbConfig.development.pool.min,
-//     acquire: dbConfig.development.pool.acquire,
-//     idle: dbConfig.development.pool.idle
-//   }
-// });
+if (process.env.NODE_ENV === 'production') {
+  sequelize = new Sequelize(process.env.POSTGRES_URL, {
+    dialect: 'postgres',
+    dialectModule: require("pg"),
+    logging: false,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
+  });
+} else {
+  sequelize = new Sequelize(
+    dbConfig.development.DB_NAME,
+    dbConfig.development.DB_USER,
+    dbConfig.development.DB_PASSWORD,
+    {
+      host: dbConfig.development.DB_HOST,
+      dialect: dbConfig.development.dialect,
+      logging: false,
+      port: dbConfig.development.DB_port,
+      pool: {
+        max: dbConfig.development.pool.max,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      }
+    }
+  );
+}
 
 async function initializeDB() {
   try {

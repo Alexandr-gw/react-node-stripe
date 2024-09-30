@@ -57,4 +57,13 @@ async function deleteBook(id) {
   return book;
 }
 
-module.exports = { getBooks, addBook, updateBook, updateStripePriceId, updateUpdatedOn, deleteBook };
+async function getBookById(id) {
+  const book = await Book.findByPk(id);
+  if (!book) {
+    throw new Error('Book not found');
+  }else{
+    return book
+  }
+}
+
+module.exports = { getBooks, addBook, updateBook, updateStripePriceId, updateUpdatedOn, deleteBook, getBookById };
