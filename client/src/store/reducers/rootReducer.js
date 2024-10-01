@@ -3,12 +3,14 @@ import booksReducer from './booksReducer';
 import stripeReducer from './stripeReducer';
 import authReducer from './authReducer';
 import userReducer from './userReducer';
+import cartReducer from './cartReducer';
 
 const rootReducer = combineReducers({
   books: booksReducer,
   stripe: stripeReducer,
   auth: authReducer,
-  users: userReducer
+  users: userReducer,
+  cart: cartReducer
 });
 
 export default rootReducer;

@@ -5,6 +5,7 @@ import BookModal from "../BookModal/BookModal";
 import CheckoutButton from '../CheckoutBtn/CheckoutBtn';
 import LoadingPage from "../LoadingPage/LoadingPage";
 import useRole from "../../hooks/useRole";
+import AddToCart from "../Cart/AddToCart";
 import './BooksList.css';
 
 const BooksList = () => {
@@ -85,7 +86,7 @@ const BooksList = () => {
                 >
                   Delete
                 </button>}
-                <CheckoutButton book={book} />
+                <AddToCart book={book} />
               </div>
             </li>
           ))}

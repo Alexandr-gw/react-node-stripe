@@ -25,7 +25,7 @@ const NavBar = () => {
                 handleLogout();
             });
             setUserRole(jwtDecode(tokenCookie).role);
-        }else{
+        } else {
             setUserRole('');
             setIsAuthenticated(false);
         }
@@ -56,7 +56,10 @@ const NavBar = () => {
                         <Link data-testid="Logout" to="/" onClick={handleLogout}>Logout</Link>
                     </>
                 ) : (
-                    <Link data-testid="Login" to="/Login">Login/Register</Link>
+                    <>
+                        <Link data-testid="Cart" to="/Cart">Cart</Link>
+                        <Link data-testid="Login" to="/Login">Login/Register</Link>
+                    </>
                 )}
             </div>
         </div>

@@ -19,3 +19,11 @@ export const USER_ERROR = 'USER_ERROR';
 
 export const LOGOUT = 'LOGOUT';
 export const TOKEN_VERIFIED = 'TOKEN_VERIFIED';
+
+export const GET_CART = 'GET_CART'; 
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const CLEAR_CART = 'CLEAR_CART';
+export const CART_ERROR = 'CART_ERROR';
+export const SET_CART_FROM_LOCAL_STORAGE = 'SET_CART_FROM_LOCAL_STORAGE';

@@ -12,6 +12,7 @@ import Login from '../components/Auth/Login/Login';
 import Registration from '../components/Auth/Registration/Registration';
 import AdminPanel from '../components/AdminPanel/AdminPanel';
 import AccessControl from '../components/AccessControl/AccessControl';
+import CartPage from '../components/Cart/CartPage';
 
 function AppRoutes() {
     return (
@@ -29,6 +30,7 @@ function AppRoutes() {
             <Route path="Registration" element={<Registration />} />
             <Route path="AdminPanel" element={
                 <AccessControl allowedRoles={['admin']}><AdminPanel /></AccessControl>} />
+            <Route path="Cart" element={<CartPage />} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>
     );
