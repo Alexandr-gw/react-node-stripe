@@ -28,3 +28,9 @@ a:visited {
 a:hover {
     color: darksalmon;
 }
+
+.cart-login-btns {
+    display: flex;
+    width: 40%;
+    justify-content: space-around;
+}

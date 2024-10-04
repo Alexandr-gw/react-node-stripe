@@ -4,6 +4,7 @@ const {
   addBook,
   updateBook,
   deleteBook,
+  getBookById
 } = require('../controllers/bookController');
 const router = express.Router();
 const validate = require('../middleware/validationMiddleware');
@@ -12,6 +13,7 @@ const authenticateToken = require('../middleware/authMiddleware');
 const authorizeRole = require('../middleware/roleMiddleware');
 
 router.get('/', getBooks);
+router.get('/:id', getBookById);
 router.post('/', authenticateToken, authorizeRole(['admin']), validate(bookSchema), addBook);
 router.put('/:id', authenticateToken, authorizeRole(['admin']), validate(bookSchema), updateBook);
 router.delete('/:id', authenticateToken, authorizeRole(['admin']), validate(bookSchema), deleteBook);

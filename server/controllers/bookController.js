@@ -51,9 +51,21 @@ async function deleteBook(req, res) {
   }
 }
 
+async function getBookById(req, res) {
+  const { id } = req.params;
+  try {
+    const book = await bookService.getBookById(id);
+    res.status(StatusCodes.OK).json(book);
+  } catch (error) {
+    console.error('Error fetching book:', error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Could not fetch book' });
+  }
+}
+
 module.exports = {
   getBooks,
   addBook,
   updateBook,
   deleteBook,
+  getBookById
 };

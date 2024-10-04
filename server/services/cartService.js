@@ -49,17 +49,16 @@ const addToCart = async (userId, productId, quantity, price) => {
   return cartItem;
 };
 
-const updateCartItem = async (userId, productId, quantity) => {
+const updateCartItem = async (userId, productId, quantity, price) => {
   try {
     const cartData = await getCart(userId);
     const cartId = cartData.cart.id;
     const cartItem = await CartItem.findOne({ where: { cartId, productId } });
-
     if (!cartItem) {
       throw new Error('Cart item not found');
     }
 
-    await cartItem.update({ quantity });
+    await cartItem.update({ quantity, price: price });
 
     return cartItem;
   } catch (error) {
@@ -106,10 +105,26 @@ const clearCart = async (userId) => {
   }
 };
 
+const getCartItemById = async (userId,productId) => {
+  try {
+    const cartData = await getCart(userId);
+    const cartId = cartData.cart.id;
+    const cartItem = await CartItem.findOne({ where: { cartId, productId } });
+    if (!cartItem) {
+      throw new Error('Cart item not found');
+    }
+    return cartItem;
+  } catch (error) {
+    console.error('Error fetching cart item:', error);
+    throw new Error('Failed to fetch cart item');
+  }
+};
+
 module.exports = {
   getCart,
   addToCart,
   updateCartItem,
   removeFromCart,
-  clearCart
+  clearCart,
+  getCartItemById
 }

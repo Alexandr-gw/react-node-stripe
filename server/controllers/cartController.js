@@ -51,12 +51,27 @@ const updateCartItem = async (req, res) => {
   const { itemId } = req.params;
   const { quantity } = req.body;
   try {
-    const updatedItem = await cartService.updateCartItem(userId, itemId, quantity);
+    const cartItem = await cartService.getCartItemById(userId,itemId);
+    if (!cartItem) {
+      return res.status(StatusCodes.NOT_FOUND).json({ error: 'Cart item not found' });
+    }
+
+    const product = await bookService.getBookById(cartItem.dataValues.productId);
+    if (!product) {
+      return res.status(StatusCodes.NOT_FOUND).json({ error: `Product with ID ${cartItem.productId} not found` });
+    }
+
+    const newTotalPrice = product.price * quantity;
+
+    const updatedItem = await cartService.updateCartItem(userId, itemId, quantity, newTotalPrice);
+
     res.status(StatusCodes.OK).json(updatedItem);
   } catch (error) {
+    console.error('Error updating cart item:', error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Failed to update cart item' });
   }
 };
+
 
 const removeFromCart = async (req, res) => {
   const userId = req.user.userId;

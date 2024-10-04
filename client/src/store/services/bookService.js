@@ -50,11 +50,22 @@ const authInterceptorToken = Cookies.get('token');
   }
 };
 
+const getBookById = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching book:', error);
+    return null;
+  }
+};
+
 const bookService = {
   getBooks,
   addBook,
   updateBook,
   deleteBook,
+  getBookById
 };
 
 export default bookService;

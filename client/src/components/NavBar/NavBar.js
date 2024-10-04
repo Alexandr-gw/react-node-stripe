@@ -53,6 +53,7 @@ const NavBar = () => {
                 {isAuthenticated ? (
                     <>
                         <span>{userRole}</span>
+                        <Link data-testid="Cart" to="/Cart">Cart</Link>
                         <Link data-testid="Logout" to="/" onClick={handleLogout}>Logout</Link>
                     </>
                 ) : (

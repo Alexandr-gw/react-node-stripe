@@ -1,5 +1,6 @@
 import {
   GET_BOOKS,
+  GET_BOOKS_BY_ID,
   ADD_BOOK,
   UPDATE_BOOK,
   DELETE_BOOK,
@@ -66,3 +67,18 @@ export const deleteBook = (id) => async dispatch => {
     });
   }
 };
+
+export const getBookById = (id) => async dispatch => {
+  try {
+    const data = await bookService.getBookById(id);
+    dispatch({
+      type: GET_BOOKS_BY_ID,
+      payload: data || {},
+    });
+  } catch (err) {
+    dispatch({
+      type: BOOK_ERROR,
+      payload: err.response.data,
+    });
+  }
+}

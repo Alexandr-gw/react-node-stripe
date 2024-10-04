@@ -1,5 +1,6 @@
 import {
   GET_BOOKS,
+  GET_BOOKS_BY_ID,
   ADD_BOOK,
   UPDATE_BOOK,
   DELETE_BOOK,
@@ -20,6 +21,12 @@ const bookReducer = (state = initialState, action) => {
         books: action.payload,
         loading: false,
       };
+    case GET_BOOKS_BY_ID:
+      return {
+        ...state,
+        books: action.payload,
+        loading: false,
+      }
     case ADD_BOOK:
       return {
         ...state,
