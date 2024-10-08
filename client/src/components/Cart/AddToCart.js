@@ -5,15 +5,14 @@ import { addToCart } from '../../store/actions/actionsCart';
 const AddToCart = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
-
   const handleAddToCart = () => {
     const item = {
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: quantity,
+      items: [{
+        productId: product.id,
+        quantity: quantity
+      }]
     };
-
+    console.log('????', product.id, quantity, item)
     dispatch(addToCart(item));
   };
 

@@ -23,9 +23,9 @@ import {
     }
   };
   
-  export const addToCart = (productId, quantity, price) => async dispatch => {
+  export const addToCart = (cartItem) => async dispatch => {
     try {
-      const data = await cartService.addToCart(productId, quantity, price);
+      const data = await cartService.addToCart(cartItem);
       dispatch({
         type: ADD_TO_CART,
         payload: data || {},

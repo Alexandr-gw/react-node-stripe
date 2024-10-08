@@ -16,9 +16,8 @@ export const getCart = async () => {
   }
 };
 
-export const addToCart = async (productId, quantity, price) => {
+export const addToCart = async (cartItem) => {
   const authInterceptorToken = Cookies.get('token');
-  const cartItem = { productId, quantity, price };
   try {
     const response = await axios.post(`${API_URL}/add`, cartItem, {
       headers: { Authorization: `Bearer ${authInterceptorToken}` },

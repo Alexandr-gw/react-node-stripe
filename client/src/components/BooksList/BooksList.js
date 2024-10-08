@@ -86,7 +86,7 @@ const BooksList = () => {
                 >
                   Delete
                 </button>}
-                <AddToCart book={book} />
+                <AddToCart product={book} />
               </div>
             </li>
           ))}
