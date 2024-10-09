@@ -1,45 +1,92 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 import CartItem from './CartItems';
 import { getCart, clearCart } from '../../store/actions/actionsCart';
 import { getBooks } from '../../store/actions/actionsBook';
 import LoadingPage from '../LoadingPage/LoadingPage';
-import './CartPage.css';
 import CheckoutButton from '../CheckoutBtn/CheckoutBtn';
+import './CartPage.css';
 
 const CartPage = () => {
     const dispatch = useDispatch();
-    let cart = useSelector((state) => state.cart.cart?.cart || {});
+    const token = Cookies.get('token');
+    const serverCart = useSelector((state) => state.cart.cart?.cart || {});
     const books = useSelector((state) => state.books.books || []);
-    const loading = useSelector((state) => state.cart.loading);
+    const serverLoading = useSelector((state) => state.cart.loading);
+
+    const [localCart, setLocalCart] = useState([]);
+    const [cart, setCart] = useState(serverCart || localCart);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        dispatch(getCart());
+        if (token) {
+            dispatch(getCart());
+        } else {
+            const storedCart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
+            setLocalCart(storedCart);
+            setLoading(false);
+        }
         dispatch(getBooks());
-    }, [dispatch]);
+    }, [dispatch, token]);
 
     useEffect(() => {
-        const initialTotal = cart.items
-            ? cart.items.reduce((sum, item) => {
-                const book = books.find((b) => b.id === item.productId);
-                return sum + (book ? item.quantity * book.price : 0);
-            }, 0)
-            : 0;
-        setTotalPrice(initialTotal);
-    }, [cart.items, books]);
+        const currentCart = token ? serverCart : localCart;
+
+        if (JSON.stringify(currentCart) !== JSON.stringify(cart)) {
+            setCart(currentCart);
+console.log('currentCart', currentCart)
+            const initialTotal = currentCart.items
+                ? currentCart.items.reduce((sum, item) => {
+                    const book = books.find((b) => b.id === item.productId);
+                    return sum + (book ? item.quantity * book.price : 0);
+                }, 0)
+                : 0;
+            setTotalPrice(initialTotal);
+        }
+    }, [serverCart, localCart, books, token, cart]);
+
+
+    useEffect(() => {
+        if (token) {
+            setLoading(serverLoading);
+        } else {
+            setLoading(false);
+        }
+    }, [serverLoading, token]);
 
     const handleQuantityChange = (productId, newQuantity, oldQuantity, price) => {
         const difference = newQuantity - oldQuantity;
         setTotalPrice((prevTotal) => prevTotal + difference * price);
+
+        if (!token) {
+            const updatedCart = localCart.map((item) =>
+                item.productId === productId ? { ...item, quantity: newQuantity } : item
+            );
+            setLocalCart(updatedCart);
+            localStorage.items.setItem('cart', JSON.stringify(updatedCart));
+        }
     };
 
     const handleRemoveItem = (productId) => {
-        cart.items = cart.items.filter((item) => item.productId !== productId);
+        const updatedItems = cart.items.filter((item) => item.productId !== productId);
+        if (token) {
+            cart.items = updatedItems;
+        } else {
+            const updatedCart = localCart.filter((item) => item.productId !== productId);
+            setLocalCart(updatedCart);
+            localStorage.items.setItem('cart', JSON.stringify(updatedCart));
+        }
     };
 
     const handleClearCart = () => {
-        dispatch(clearCart());
+        if (token) {
+            dispatch(clearCart());
+        } else {
+            setLocalCart([]);
+            localStorage.items.setItem('cart', JSON.stringify([]));
+        }
         setTotalPrice(0);
     };
 
@@ -57,7 +104,7 @@ const CartPage = () => {
             <div className="cart-items">
                 {cart.items.map((item) => (
                     <CartItem
-                        key={item.productId}
+                        key={item.productId || item.id}
                         item={item}
                         books={books}
                         onQuantityChange={handleQuantityChange}

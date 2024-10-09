@@ -1,19 +1,28 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../store/actions/actionsCart';
+import Cookies from 'js-cookie';
 
 const AddToCart = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const handleAddToCart = () => {
-    const item = {
-      items: [{
-        productId: product.id,
-        quantity: quantity
-      }]
-    };
-    console.log('????', product.id, quantity, item)
-    dispatch(addToCart(item));
+    const token = Cookies.get('token');
+
+    if (token) {
+      const item = {
+        items: [{
+          productId: product.id,
+          quantity: quantity
+        }]
+      };
+      dispatch(addToCart(item));
+    } else {
+      let cart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
+      product = { ...product, productId: product.id};
+      cart.items.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
   };
 
   return (

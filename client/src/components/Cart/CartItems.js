@@ -9,24 +9,24 @@ const CartItem = ({ item, books, onQuantityChange, onRemove }) => {
   const book = useMemo(() => books.find((b) => b.id === item.productId), [books, item.productId]);
 
   if (!book) {
-    return null; 
+    return null;
   }
 
   const handleQuantityChange = (e) => {
-    const value = Math.max(1, parseInt(e.target.value, 10)); 
-    const previousQuantity = quantity; 
+    const value = Math.max(1, parseInt(e.target.value, 10));
+    const previousQuantity = quantity;
     setQuantity(value);
     dispatch(updateCartItem(item.productId, value));
-    onQuantityChange(item.productId, value, previousQuantity, book.price); 
+    onQuantityChange(item.productId, value, previousQuantity, book.price);
   };
 
-  const handleRemoveItem = () => {   
+  const handleRemoveItem = () => {
     onQuantityChange(item.productId, 0, quantity, book.price);
     dispatch(removeFromCart(item.productId));
     onRemove(item.productId);
   };
 
-  const lineTotal = (quantity * book.price).toFixed(2); 
+  const lineTotal = (quantity * book.price).toFixed(2);
 
   return (
     <div className="cart-item">
@@ -40,7 +40,7 @@ const CartItem = ({ item, books, onQuantityChange, onRemove }) => {
         />
         <span>Total: ${lineTotal}</span>
       </div>
-      <button onClick={handleRemoveItem}>Remove</button> 
+      <button onClick={handleRemoveItem}>Remove</button>
     </div>
   );
 };
