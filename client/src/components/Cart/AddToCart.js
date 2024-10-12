@@ -19,8 +19,17 @@ const AddToCart = ({ product }) => {
       dispatch(addToCart(item));
     } else {
       let cart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
-      product = { ...product, productId: product.id};
-      cart.items.push(product);
+      product = {
+        ...product,
+        productId: product.id,
+        quantity: 1
+      };
+      const existingProductIndex = cart.items.findIndex(item => item.productId === product.productId);
+      if (existingProductIndex !== -1) {
+        cart.items[existingProductIndex].quantity += 1;
+      } else {
+        cart.items.push(product);
+      }
       localStorage.setItem('cart', JSON.stringify(cart));
     }
   };

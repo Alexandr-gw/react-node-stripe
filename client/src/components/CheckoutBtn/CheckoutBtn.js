@@ -8,7 +8,7 @@ const CheckoutButton = ({ books }) => {
   const dispatch = useDispatch();
   const [response, setResponse] = useState(false);
   const { url, loading } = useSelector(state => state.stripe);
-  const cartItems = books.map(({price, ...rest}) => rest)
+  const cartItems = books.map(({ price, ...rest }) => rest)
 
   useEffect(() => {
     if (url && response) {
@@ -22,11 +22,11 @@ const CheckoutButton = ({ books }) => {
     if (!stripe || loading) {
       return;
     }
-    
+
     const paymentData = {
       items: cartItems
     };
-
+    
     dispatch(checkoutAction(paymentData));
     setResponse(true)
   };

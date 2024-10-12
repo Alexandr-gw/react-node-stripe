@@ -4,7 +4,7 @@ import {
   UPDATE_CART_ITEM,
   REMOVE_FROM_CART,
   CLEAR_CART,
-  CART_ERROR,
+  CART_ERROR
 } from '../actions/actionTypes';
 
 const initialState = {

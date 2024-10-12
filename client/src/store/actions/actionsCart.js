@@ -4,7 +4,7 @@ import {
     UPDATE_CART_ITEM,
     REMOVE_FROM_CART,
     CLEAR_CART,
-    CART_ERROR,
+    CART_ERROR
   } from './actionTypes';
   import cartService from '../../store/services/cartServices';
   
@@ -80,5 +80,4 @@ import {
         payload: err.response ? err.response.data : 'Error clearing cart',
       });
     }
-  };
-  
+  };  

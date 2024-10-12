@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import CartItem from './CartItems';
-import { getCart, clearCart } from '../../store/actions/actionsCart';
+import { getCart, clearCart, updateCartItem, removeFromCart } from '../../store/actions/actionsCart';
 import { getBooks } from '../../store/actions/actionsBook';
 import LoadingPage from '../LoadingPage/LoadingPage';
 import CheckoutButton from '../CheckoutBtn/CheckoutBtn';
@@ -25,18 +25,27 @@ const CartPage = () => {
             dispatch(getCart());
         } else {
             const storedCart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
-            setLocalCart(storedCart);
+
+            const transformedCart = {
+                items: storedCart.items.map(item => ({
+                    productId: item.productId,
+                    quantity: item.quantity,
+                    price: item.price,
+                }))
+            };
+
+            setLocalCart(transformedCart);
             setLoading(false);
         }
         dispatch(getBooks());
-    }, [dispatch, token]);
+    }, [dispatch]);
+
 
     useEffect(() => {
         const currentCart = token ? serverCart : localCart;
 
         if (JSON.stringify(currentCart) !== JSON.stringify(cart)) {
             setCart(currentCart);
-console.log('currentCart', currentCart)
             const initialTotal = currentCart.items
                 ? currentCart.items.reduce((sum, item) => {
                     const book = books.find((b) => b.id === item.productId);
@@ -45,7 +54,7 @@ console.log('currentCart', currentCart)
                 : 0;
             setTotalPrice(initialTotal);
         }
-    }, [serverCart, localCart, books, token, cart]);
+    }, [books]);
 
 
     useEffect(() => {
@@ -60,12 +69,14 @@ console.log('currentCart', currentCart)
         const difference = newQuantity - oldQuantity;
         setTotalPrice((prevTotal) => prevTotal + difference * price);
 
-        if (!token) {
-            const updatedCart = localCart.map((item) =>
+        if (token) {
+            dispatch(updateCartItem(productId, newQuantity));
+        } else {
+            const updatedCartItems = cart.items.map((item) =>
                 item.productId === productId ? { ...item, quantity: newQuantity } : item
             );
-            setLocalCart(updatedCart);
-            localStorage.items.setItem('cart', JSON.stringify(updatedCart));
+            setCart({ ...cart, items: updatedCartItems });
+            localStorage.setItem('cart', JSON.stringify({ items: updatedCartItems }));
         }
     };
 
@@ -73,10 +84,11 @@ console.log('currentCart', currentCart)
         const updatedItems = cart.items.filter((item) => item.productId !== productId);
         if (token) {
             cart.items = updatedItems;
+            dispatch(removeFromCart(productId));
         } else {
-            const updatedCart = localCart.filter((item) => item.productId !== productId);
+            const updatedCart = localCart.items.filter((item) => item.productId !== productId);
             setLocalCart(updatedCart);
-            localStorage.items.setItem('cart', JSON.stringify(updatedCart));
+            localStorage.setItem('cart', JSON.stringify({ items: updatedCart }));
         }
     };
 
@@ -97,7 +109,6 @@ console.log('currentCart', currentCart)
     if (!cart.items || cart.items.length === 0) {
         return <div className="cart-page-wrapper">Your cart is empty.</div>;
     }
-
     return (
         <div className="cart-page-wrapper">
             <h2>Your Shopping Cart</h2>
