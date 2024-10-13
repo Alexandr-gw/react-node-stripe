@@ -83,21 +83,25 @@ const CartPage = () => {
     const handleRemoveItem = (productId) => {
         const updatedItems = cart.items.filter((item) => item.productId !== productId);
         if (token) {
-            cart.items = updatedItems;
+            const updatedCart = { ...cart, items: updatedItems };
+            setCart(updatedCart);
             dispatch(removeFromCart(productId));
         } else {
-            const updatedCart = localCart.items.filter((item) => item.productId !== productId);
+            const updatedCart = { ...localCart, items: updatedItems };
             setLocalCart(updatedCart);
-            localStorage.setItem('cart', JSON.stringify({ items: updatedCart }));
+            setCart(updatedCart);
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
         }
     };
 
     const handleClearCart = () => {
         if (token) {
+            setCart({ items: [] });
             dispatch(clearCart());
         } else {
-            setLocalCart([]);
-            localStorage.items.setItem('cart', JSON.stringify([]));
+            setLocalCart({ items: [] });
+            setCart({ items: [] });
+            localStorage.setItem('cart', JSON.stringify({ items: [] }));
         }
         setTotalPrice(0);
     };

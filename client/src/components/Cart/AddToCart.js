@@ -22,7 +22,7 @@ const AddToCart = ({ product }) => {
       product = {
         ...product,
         productId: product.id,
-        quantity: 1
+        quantity: quantity
       };
       const existingProductIndex = cart.items.findIndex(item => item.productId === product.productId);
       if (existingProductIndex !== -1) {

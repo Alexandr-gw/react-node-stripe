@@ -1,10 +1,14 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 const CartItem = ({ item, books, onQuantityChange, onRemove }) => {
   const [quantity, setQuantity] = useState(item.quantity);
 
   const book = useMemo(() => books.find((b) => b.id === item.productId), [books, item.productId]);
+
+  useEffect(() => {
+    setQuantity(item.quantity);
+  }, [item]);
 
   if (!book) {
     return null;
