@@ -15,6 +15,9 @@ async function getBooks(req, res) {
 async function addBook(req, res) {
   const book = req.body;
   try {
+    if (req.file) {
+      book.imageUrl = req.file.path;
+    }
     const product = await addProduct(book);
     const savedBook = await bookService.addBook(book, product);
     res.status(StatusCodes.CREATED).json(savedBook);
@@ -28,6 +31,9 @@ async function updateBook(req, res) {
   const updatedBook = req.body;
   const { id } = req.params;
   try {
+    if (req.file) {
+      updatedBook.imageUrl = req.file.path; 
+    }
     await updateProduct(id, updatedBook);
     const book =  await bookService.updateBook(id, updatedBook);
     bookService.updateUpdatedOn(id, true);

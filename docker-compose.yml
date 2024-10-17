@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   server:
     build: ./server
     env_file:
-      - ./server/.env
+      - ./server/.env.development
     depends_on:
       - postgres
       - postgres-test
@@ -35,7 +33,7 @@ services:
     volumes:
       - ./server/db/postgres:/var/lib/postgresql/data
     env_file:
-      - ./server/.env
+      - ./server/.env.development
   
   postgres-test:
     image: postgres:14
@@ -49,7 +47,7 @@ services:
     volumes:
       - ./server/db/test-db/postgres:/var/lib/postgresql/data
     env_file:
-      - ./server/.env
+      - ./server/.env.development
 
 volumes:
   postgres_data:

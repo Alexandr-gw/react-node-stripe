@@ -1,5 +1,11 @@
 const validate = (schema) => (req, res, next) => {
-    const { error } = schema.validate(req.body, { abortEarly: false });
+    const dataToValidate = { ...req.body };
+
+    if (req.file) {
+        dataToValidate.file = req.file;
+    }
+
+    const { error } = schema.validate(dataToValidate, { abortEarly: false });
 
     if (error) {
         const errorMessages = error.details.map(detail => detail.message);
@@ -9,4 +15,4 @@ const validate = (schema) => (req, res, next) => {
     next();
 };
 
-module.exports = validate;  
+module.exports = validate;

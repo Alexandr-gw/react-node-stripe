@@ -30,6 +30,10 @@ const Book = sequelize.define('Book', {
     updatedOn: {
         type: DataTypes.DATE,
     },
+    imageUrl: {  
+        type: DataTypes.STRING,
+        allowNull: true,
+    }
 }, {
     timestamps: false, // Disable automatic timestamp fields (createdAt, updatedAt)
 });
