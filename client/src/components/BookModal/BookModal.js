@@ -6,7 +6,7 @@ import "./BookModal.css";
 Modal.setAppElement("#root");
 
 const BookModal = ({ isOpen, onClose, onSubmit, book }) => {
-  const { formData, errors, handleChange, handleSubmit, handleReset } = useBookForm(onSubmit, book, onClose);
+  const { formData, errors, handleChange, handleImageChange, handleSubmit, handleReset } = useBookForm(onSubmit, book, onClose);
 
   return (
     <Modal
@@ -18,7 +18,7 @@ const BookModal = ({ isOpen, onClose, onSubmit, book }) => {
       <button onClick={onClose} className="close-btn">
         X
       </button>
-      <h2>Add a New Book</h2>
+      <h2>{book ? "Edit Book" : "Add a New Book"}</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-line">
           <label>Title:</label>
@@ -60,6 +60,15 @@ const BookModal = ({ isOpen, onClose, onSubmit, book }) => {
               onChange={handleChange}
             />
           </label>
+        </div>
+        <div className="form-line">
+          <label>Image:</label>
+          <input
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+          />
+          {errors.image && <div className="error">{errors.image}</div>}
         </div>
         <div className="form-btns">
           <button type="submit" className="submit-btn">

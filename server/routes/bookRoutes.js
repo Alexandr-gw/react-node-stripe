@@ -17,6 +17,6 @@ router.get('/', getBooks);
 router.get('/:id', getBookById);
 router.post('/', authenticateToken, authorizeRole(['admin']), upload.single('image'), validate(bookSchema), addBook);
 router.put('/:id', authenticateToken, authorizeRole(['admin']), upload.single('image'), validate(bookSchema), updateBook);
-router.delete('/:id', authenticateToken, authorizeRole(['admin']), validate(bookSchema), deleteBook);
+router.delete('/:id', authenticateToken, authorizeRole(['admin']), deleteBook);
 
 module.exports = router;

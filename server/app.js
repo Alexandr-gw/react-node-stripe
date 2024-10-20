@@ -7,11 +7,13 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const { errorHandler } = require('./middleware/errorMiddleware');
+const path = require('path');
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api/payment', paymentRoutes);
 app.use('/api/books', bookRoutes);

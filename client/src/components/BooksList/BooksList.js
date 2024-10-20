@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBooks, addBook, updateBook, deleteBook } from "../../store/actions/actionsBook";
 import BookModal from "../BookModal/BookModal";
-import CheckoutButton from '../CheckoutBtn/CheckoutBtn';
 import LoadingPage from "../LoadingPage/LoadingPage";
 import useRole from "../../hooks/useRole";
 import AddToCart from "../Cart/AddToCart";
@@ -21,11 +20,11 @@ const BooksList = () => {
     dispatch(getBooks());
   }, [dispatch]);
 
-  const handleNewBook = (newBook) => {
-    dispatch(addBook(newBook));
+  const handleNewBook = (formData) => {
+    dispatch(addBook(formData));
   };
-  const handleUpdateBook = (id, updatedBook) => {
-    dispatch(updateBook(id, updatedBook));
+  const handleUpdateBook = (id, formData) => {
+    dispatch(updateBook(id, formData));
   };
   const handleEditClick = (book) => {
     setIsModalOpen(true);
@@ -37,18 +36,18 @@ const BooksList = () => {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (book) => {
+  const handleSubmit = (formData) => {
     if (currentBook) {
-      handleUpdateBook(currentBook.id, book);
+      handleUpdateBook(currentBook.id, formData);
     } else {
-      handleNewBook(book);
+      handleNewBook(formData);
     }
   };
 
   const handleDeleteBook = (id) => {
     dispatch(deleteBook(id));
   };
-
+  
   if (loading) {
     return (<LoadingPage />)
   } else {
@@ -61,6 +60,7 @@ const BooksList = () => {
             <h4>Author</h4>
             <h4>Read</h4>
             <h4>Price</h4>
+            <h4>Image</h4> 
           </div>
           {role === 'admin' && <button onClick={() => handleAddClick()} className="add-book-btn">
             Add Book
@@ -74,6 +74,13 @@ const BooksList = () => {
                 <h5>{book.author}</h5>
                 <h5>{book.read ? "Yes" : "No"}</h5>
                 <h5>${book.price}</h5>
+                {book.imageUrl && (
+                  <img 
+                    src={book.imageUrl} 
+                    alt={book.title} 
+                    className="book-image"
+                  />
+                )}
               </div>
               <div className="book-btns">
                 {role === 'admin' && <button

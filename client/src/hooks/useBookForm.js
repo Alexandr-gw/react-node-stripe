@@ -7,6 +7,7 @@ export const useBookForm = (onSubmit, book, onClose) => {
     author: "",
     price: "",
     read: true,
+    image: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -27,13 +28,29 @@ export const useBookForm = (onSubmit, book, onClose) => {
     }));
   };
 
+  const handleImageChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      image: e.target.files[0],
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validateBook(formData);
     if (Object.keys(validationErrors).length === 0) {
-      onSubmit(formData);
+      const formToSubmit = new FormData();
+      formToSubmit.append("title", formData.title);
+      formToSubmit.append("author", formData.author);
+      formToSubmit.append("price", formData.price);
+      formToSubmit.append("read", formData.read);
+      if (formData.image) {
+        formToSubmit.append("image", formData.image);
+      }
+
+      onSubmit(formToSubmit);
       handleReset();
-      onClose(); 
+      onClose();
     } else {
       setErrors(validationErrors);
     }
@@ -45,6 +62,7 @@ export const useBookForm = (onSubmit, book, onClose) => {
       author: "",
       price: "",
       read: false,
+      image: null,
     });
     setErrors({});
   };
@@ -53,6 +71,7 @@ export const useBookForm = (onSubmit, book, onClose) => {
     formData,
     errors,
     handleChange,
+    handleImageChange,
     handleSubmit,
     handleReset,
   };
