@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutAction, tokenVerified } from "../../store/actions/actionsAuth";
 import authService from "../../store/services/authService";
 import { jwtDecode } from "jwt-decode";
-import "./NavBar.css";
-
 
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -37,33 +35,39 @@ const NavBar = () => {
         setUserRole('');
         navigate('/');
     };
+
     return (
-        <div className="header">
-            <div>
-                <div>Logo</div>
+        <header className="bg-yellow-300 absolute my-10 p-4 z-50 w-4/5 rounded-full mx-auto left-0 right-0">
+            <div className="flex justify-between items-center max-w-7xl mx-auto">
+                <div className="font-bold text-2xl italic text-green-900">
+                    <Link to="/">logo</Link>
+                </div>
+                <nav className="flex space-x-8 text-black font-semibold">
+                    <Link to="/" className="hover:underline">Home</Link>
+                    <Link to="/BooksList" className="hover:underline">Shop</Link>
+                    {userRole === 'admin' && (
+                        <Link data-testid="AdminPanel" to="/AdminPanel" className="hover:underline">Admin Panel</Link>
+                    )}
+                </nav>
+                <div className="flex items-center space-x-6">
+                    <Link to="/Cart" className="hover:underline">Cart</Link>
+                    {isAuthenticated ? (
+                        <>
+                            <span className="text-black">{userRole}</span>
+                            <button
+                                onClick={handleLogout}
+                                className="text-black hover:underline">
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <Link to="/Login" className="text-black hover:underline">
+                            Login/Register
+                        </Link>
+                    )}
+                </div>
             </div>
-            <div className="nav-btns">
-                <Link data-testid="HomePage" to="/">Home</Link>
-                <Link data-testid="BooksList" to="/BooksList">Books</Link>
-                {userRole === 'admin' && (
-                    <Link data-testid="AdminPanel" to="/AdminPanel">Admin Panel</Link>
-                )}
-            </div>
-            <div className="cart-login-btns">
-                {isAuthenticated ? (
-                    <>
-                        <span>{userRole}</span>
-                        <Link data-testid="Cart" to="/Cart">Cart</Link>
-                        <Link data-testid="Logout" to="/" onClick={handleLogout}>Logout</Link>
-                    </>
-                ) : (
-                    <>
-                        <Link data-testid="Cart" to="/Cart">Cart</Link>
-                        <Link data-testid="Login" to="/Login">Login/Register</Link>
-                    </>
-                )}
-            </div>
-        </div>
+        </header>
     );
 };
 

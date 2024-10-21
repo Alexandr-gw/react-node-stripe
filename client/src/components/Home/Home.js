@@ -1,8 +1,9 @@
 import React from 'react';
-import './Home.css';
+import backgroundImage from '../../assets/images/intro.png';
 function Home() {
   return (
-    <div className="intro">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center"
+    style={{ backgroundImage: `url(${backgroundImage})` }}>
       Home of many books
     </div>
   );
