@@ -26,13 +26,19 @@ const CheckoutButton = ({ books }) => {
     const paymentData = {
       items: cartItems
     };
-    
+
     dispatch(checkoutAction(paymentData));
     setResponse(true)
   };
   return (
     <div>
-      <button type="submit" className='checkout-btn' onClick={handleSubmit}>Pay</button>
+      <button
+        type="submit"
+        className="bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-green-700 hover:shadow-xl transition-transform transform"
+        onClick={handleSubmit}
+      >
+        Pay
+      </button>
     </div>
   );
 

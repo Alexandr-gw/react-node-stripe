@@ -6,7 +6,6 @@ import { getCart, clearCart, updateCartItem, removeFromCart } from '../../store/
 import { getBooks } from '../../store/actions/actionsBook';
 import LoadingPage from '../LoadingPage/LoadingPage';
 import CheckoutButton from '../CheckoutBtn/CheckoutBtn';
-import './CartPage.css';
 
 const CartPage = () => {
     const dispatch = useDispatch();
@@ -114,27 +113,39 @@ const CartPage = () => {
         return <div className="cart-page-wrapper">Your cart is empty.</div>;
     }
     return (
-        <div className="cart-page-wrapper">
-            <h2>Your Shopping Cart</h2>
-            <div className="cart-items">
-                {cart.items.map((item) => (
-                    <CartItem
-                        key={item.productId || item.id}
-                        item={item}
-                        books={books}
-                        onQuantityChange={handleQuantityChange}
-                        onRemove={handleRemoveItem}
-                    />
-                ))}
+        <div className="max-w-7xl mx-auto p-6 bg-gray-100 min-h-screen">
+            <h2 className="text-3xl font-bold mb-6 text-gray-800">Your Shopping Cart</h2>
+            <div className="space-y-4 mb-8">
+                {cart.items.length > 0 ? (
+                    cart.items.map((item) => (
+                        <CartItem
+                            key={item.productId || item.id}
+                            item={item}
+                            books={books}
+                            onQuantityChange={handleQuantityChange}
+                            onRemove={handleRemoveItem}
+                        />
+                    ))
+                ) : (
+                    <p className="text-lg text-gray-700">Your cart is empty.</p>
+                )}
             </div>
-            <div className="cart-total">
-                <h3>Total Price: ${totalPrice.toFixed(2)}</h3>
+            <div className="bg-white p-4 rounded-lg shadow-md mb-6">
+                <h3 className="text-2xl font-semibold text-gray-700">
+                    Total Price: <span className="text-gray-900">${totalPrice.toFixed(2)}</span>
+                </h3>
             </div>
-            <div className="cart-actions">
-                <button onClick={handleClearCart}>Clear Cart</button>
+            <div className="flex justify-between items-center space-x-4">
+                <button
+                    onClick={handleClearCart}
+                    className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition"
+                >
+                    Clear Cart
+                </button>
                 <CheckoutButton books={cart.items} />
             </div>
         </div>
+
     );
 };
 
