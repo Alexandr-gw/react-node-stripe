@@ -35,15 +35,23 @@ const AddToCart = ({ product }) => {
   };
 
   return (
-    <div>
-      <input
-        type="number"
-        value={quantity}
-        min="1"
-        onChange={(e) => setQuantity(Number(e.target.value))}
-      />
-      <button onClick={handleAddToCart}>Add to Cart</button>
-    </div>
+    <div className="flex items-center space-x-4">
+    <input
+      type="number"
+      value={quantity}
+      min="1"
+      onChange={(e) => setQuantity(Number(e.target.value))}
+      className="w-16 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+    />
+  
+    <button
+      onClick={handleAddToCart}
+      className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-transform transform shadow-lg"
+    >
+      Add to Cart
+    </button>
+  </div>
+  
   );
 };
 

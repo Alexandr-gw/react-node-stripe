@@ -69,7 +69,8 @@ const BooksList = () => {
           {books.map((book, index) => (
             <div
               key={index}
-              className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition relative group"
+              className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition relative group cursor-pointer focus-within:ring-2 focus-within:ring-blue-500"
+              tabIndex={0}  
             >
               {book.imageUrl && (
                 <img
@@ -85,9 +86,9 @@ const BooksList = () => {
               </div>
               <AddToCart product={book} />
               {role === 'admin' && (
-                <div className="absolute top-4 right-4 flex space-x-2">
+                <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300">
                   <button
-                    onClick={() => handleEditClick(book)}
+                    onClick={handleEditClick}
                     className="bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition"
                   >
                     Edit
@@ -103,6 +104,7 @@ const BooksList = () => {
             </div>
           ))}
         </div>
+
         <BookModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
