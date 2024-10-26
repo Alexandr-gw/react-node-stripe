@@ -9,7 +9,7 @@ function Home() {
     >
       <div className="absolute inset-0 bg-black opacity-40"></div>
       <div className="relative z-10 text-center max-w-4xl mx-auto p-8">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">
+        <h1 className="text-4xl md:text-5xl font-bold mb-6 color-">
           Discover Your Next Great Read
         </h1>
         <p className="text-lg md:text-xl mb-8 font-serif">
