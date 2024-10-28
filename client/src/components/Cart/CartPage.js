@@ -113,7 +113,7 @@ const CartPage = () => {
         return <div className="cart-page-wrapper">Your cart is empty.</div>;
     }
     return (
-        <div className="max-w-7xl mx-auto p-6 bg-gray-100 min-h-screen">
+        <div className="max-w-7xl mx-auto p-6 bg-gray-100">
             <h2 className="text-3xl font-bold mb-6 text-gray-800">Your Shopping Cart</h2>
             <div className="space-y-4 mb-8">
                 {cart.items.length > 0 ? (

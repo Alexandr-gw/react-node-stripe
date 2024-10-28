@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Home() {
   return (
     <div
-      className="min-h-screen -my-16 flex items-center justify-center bg-cover bg-center text-white relative"
+      className="min-h-screen -my-16 mb-0 flex items-center justify-center bg-cover bg-center text-white relative"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="absolute inset-0 bg-black opacity-40"></div>

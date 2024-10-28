@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutAction, tokenVerified } from "../../store/actions/actionsAuth";
 import authService from "../../store/services/authService";
 import { jwtDecode } from "jwt-decode";
+import BurgerMenu from "./BurgerMenu";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -12,6 +15,7 @@ const NavBar = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState('');
     const { token } = useSelector((state) => state.auth);
+    const [isNavOpen, setIsNavOpen] = useState(false);
 
     useEffect(() => {
         const tokenCookie = Cookies.get('token');
@@ -36,27 +40,42 @@ const NavBar = () => {
         navigate('/');
     };
 
+    const toggleNav = () => {
+        setIsNavOpen(!isNavOpen);
+    };
+
     return (
         <header className="bg-yellow-300 relative p-4 z-50 w-4/5 rounded-full mx-auto left-0 right-0">
             <div className="flex justify-between items-center max-w-7xl mx-auto">
                 <div className="font-bold text-2xl italic text-green-900">
                     <Link to="/">logo</Link>
                 </div>
-                <nav className="flex space-x-8 text-black font-semibold">
+
+                <div className="block md:hidden">
+                    <button onClick={toggleNav} className="text-green-900 focus:outline-none">
+                        <FontAwesomeIcon icon={faBars} className="w-7 h-7" />
+                    </button>
+                </div>
+
+                <nav className="hidden md:flex space-x-8 text-black font-semibold">
                     <Link to="/" className="hover:underline">Home</Link>
                     <Link to="/BooksList" className="hover:underline">Shop</Link>
                     {userRole === 'admin' && (
-                        <Link data-testid="AdminPanel" to="/AdminPanel" className="hover:underline">Admin Panel</Link>
+                        <Link data-testid="AdminPanel" to="/AdminPanel" className="hover:underline">
+                            Admin Panel
+                        </Link>
                     )}
                 </nav>
-                <div className="flex items-center space-x-6">
+
+                <div className="hidden md:flex items-center space-x-6">
                     <Link to="/Cart" className="hover:underline">Cart</Link>
                     {isAuthenticated ? (
                         <>
                             <span className="text-black">{userRole}</span>
                             <button
                                 onClick={handleLogout}
-                                className="text-black hover:underline">
+                                className="text-black hover:underline"
+                            >
                                 Logout
                             </button>
                         </>
@@ -67,6 +86,14 @@ const NavBar = () => {
                     )}
                 </div>
             </div>
+
+            <BurgerMenu
+                isOpen={isNavOpen}
+                onClose={() => setIsNavOpen(false)}
+                userRole={userRole}
+                isAuthenticated={isAuthenticated}
+                handleLogout={handleLogout}
+            />
         </header>
     );
 };
