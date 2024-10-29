@@ -3,6 +3,7 @@
 #assets 
 /uploads
 /api/uploads
+/public
 
 # dependencies
 /node_modules
