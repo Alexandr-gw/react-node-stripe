@@ -8,7 +8,7 @@ async function getBooks(req, res) {
 
     const booksWithImageUrls = books.map(book => ({
       ...book,
-      imageUrl: book.imageUrl ? `${req.protocol}://${req.get('host')}/api/uploads/${book.imageUrl}` : null,
+      imageUrl: book.imageUrl ? `${req.protocol}://${req.get('host')}/uploads/${book.imageUrl}` : null,
     }));
 
     res.status(StatusCodes.OK).json(booksWithImageUrls);
@@ -29,7 +29,7 @@ async function addBook(req, res) {
 
     const savedBookWithImageUrl = {
       ...savedBook.toJSON(),
-      imageUrl: savedBook.imageUrl ? `${req.protocol}://${req.get('host')}/api/uploads/${savedBook.imageUrl}` : null,
+      imageUrl: savedBook.imageUrl ? `${req.protocol}://${req.get('host')}/uploads/${savedBook.imageUrl}` : null,
     };
 
     res.status(StatusCodes.CREATED).json(savedBookWithImageUrl);
@@ -52,7 +52,7 @@ async function updateBook(req, res) {
     
     const bookWithImageUrl = {
       ...book.toJSON(),
-      imageUrl: book.imageUrl ? `${req.protocol}://${req.get('host')}/api/uploads/${book.imageUrl}` : null,
+      imageUrl: book.imageUrl ? `${req.protocol}://${req.get('host')}/uploads/${book.imageUrl}` : null,
     };
     res.status(StatusCodes.OK).json(bookWithImageUrl);
   } catch (error) {
@@ -80,7 +80,7 @@ async function getBookById(req, res) {
     const book = await bookService.getBookById(id);
     const bookWithImageUrl = {
       ...book.toJSON(),
-      imageUrl: book.imageUrl ? `${req.protocol}://${req.get('host')}/api/uploads/${book.imageUrl}` : null,
+      imageUrl: book.imageUrl ? `${req.protocol}://${req.get('host')}/uploads/${book.imageUrl}` : null,
     };
     res.status(StatusCodes.OK).json(bookWithImageUrl);
   } catch (error) {
