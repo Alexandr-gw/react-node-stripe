@@ -8,7 +8,7 @@ async function getBooks(req, res) {
 
     const booksWithImageUrls = books.map(book => ({
       ...book,
-      imageUrl: book.imageUrl ? `${req.protocol}://${req.get('host')}/uploads/${book.imageUrl}` : null,
+      imageUrl: book.imageUrl ? `${req.protocol}://${req.get('host')}/api/uploads/${book.imageUrl}` : null,
     }));
 
     res.status(StatusCodes.OK).json(booksWithImageUrls);
@@ -21,30 +21,15 @@ async function getBooks(req, res) {
 async function addBook(req, res) {
   const book = req.body;
   try {
-    let imageUrl;
-
     if (req.file) {
-      if (process.env.NODE_ENV === 'development') {
-        book.imageUrl = req.file.filename;
-        imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-      } else {
-        const { upload } = require('@vercel/blob');
-        
-        const result = await upload(req.file.buffer, {
-          contentType: req.file.mimetype,
-          originalName: req.file.originalname,
-        });
-        imageUrl = result.url;
-        book.imageUrl = result.url; 
-      }
+      book.imageUrl = req.file.filename;
     }
-
     const product = await addProduct(book);
     const savedBook = await bookService.addBook(book, product);
 
     const savedBookWithImageUrl = {
       ...savedBook.toJSON(),
-      imageUrl: imageUrl || null, // Set the final URL or null if no image
+      imageUrl: savedBook.imageUrl ? `${req.protocol}://${req.get('host')}/uploads/${savedBook.imageUrl}` : null,
     };
 
     res.status(StatusCodes.CREATED).json(savedBookWithImageUrl);
