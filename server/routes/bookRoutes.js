@@ -11,6 +11,7 @@ const validate = require('../middleware/validationMiddleware');
 const bookSchema = require('../validator/bookValidator');
 const authenticateToken = require('../middleware/authMiddleware');
 const authorizeRole = require('../middleware/roleMiddleware');
+const upload = require('../middleware/uploadMiddleware');
 
 router.get('/', getBooks);
 router.get('/:id', getBookById);
