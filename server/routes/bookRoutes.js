@@ -11,12 +11,12 @@ const validate = require('../middleware/validationMiddleware');
 const bookSchema = require('../validator/bookValidator');
 const authenticateToken = require('../middleware/authMiddleware');
 const authorizeRole = require('../middleware/roleMiddleware');
-const upload = require('../middleware/uploadMiddleware');
+const { upload, uploadToVercelBlob } = require('../middleware/uploadMiddleware');
 
 router.get('/', getBooks);
 router.get('/:id', getBookById);
-router.post('/', authenticateToken, authorizeRole(['admin']), upload.single('image'), validate(bookSchema), addBook);
-router.put('/:id', authenticateToken, authorizeRole(['admin']), upload.single('image'), validate(bookSchema), updateBook);
+router.post('/', authenticateToken, authorizeRole(['admin']), upload.single('image'), uploadToVercelBlob, validate(bookSchema), addBook);
+router.put('/:id', authenticateToken, authorizeRole(['admin']), upload.single('image'), uploadToVercelBlob, validate(bookSchema), updateBook);
 router.delete('/:id', authenticateToken, authorizeRole(['admin']), deleteBook);
 
 module.exports = router;

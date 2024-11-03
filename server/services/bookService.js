@@ -1,4 +1,5 @@
 const Book = require('../models/book');
+const  deleteBlobImage  = require('../utils/blobUtils');
 
 async function getBooks() {
   let books = await Book.findAll({ raw: true });
@@ -53,6 +54,9 @@ async function deleteBook(id) {
   if (!book) {
     throw new Error('Book not found');
   }
+  if (book.imageUrl) {
+    await deleteBlobImage(book.imageUrl);
+  }
   await book.destroy();
   return book;
 }
@@ -61,7 +65,7 @@ async function getBookById(id) {
   const book = await Book.findByPk(id);
   if (!book) {
     throw new Error('Book not found');
-  }else{
+  } else {
     return book
   }
 }

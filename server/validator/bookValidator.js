@@ -24,7 +24,9 @@ const bookSchema = Joi.object({
     'any.required': 'Price is required',
   }),
   read: Joi.boolean().optional(),
-
+  imageUrl: Joi.string().uri().optional().messages({
+    'string.uri': 'Image link must be a valid URL',
+  }),
   file: Joi.any().optional().messages({
     'any.required': 'Image is required',
   })
