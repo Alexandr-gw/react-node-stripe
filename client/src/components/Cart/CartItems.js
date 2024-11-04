@@ -1,9 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCart } from '../../context/CartContext';
 
 const CartItem = ({ item, books, onQuantityChange, onRemove }) => {
   const [quantity, setQuantity] = useState(item.quantity);
-
+  const { decrementTotalQuantity } = useCart();
   const book = useMemo(() => books.find((b) => b.id === item.productId), [books, item.productId]);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ const CartItem = ({ item, books, onQuantityChange, onRemove }) => {
 
   const handleRemoveItem = () => {
     onRemove(item.productId);
+    decrementTotalQuantity(quantity);
   };
 
   const lineTotal = (quantity * book.price).toFixed(2);
@@ -53,7 +54,6 @@ const CartItem = ({ item, books, onQuantityChange, onRemove }) => {
         Remove
       </button>
     </div>
-
   );
 };
 

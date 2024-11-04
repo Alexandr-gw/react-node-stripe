@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import BurgerMenu from "./BurgerMenu";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import CartBtn from "../Cart/CartBtn";
 
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const NavBar = () => {
     const [userRole, setUserRole] = useState('');
     const { token } = useSelector((state) => state.auth);
     const [isNavOpen, setIsNavOpen] = useState(false);
-
+    
     useEffect(() => {
         const tokenCookie = Cookies.get('token');
         if (tokenCookie) {
@@ -68,7 +69,7 @@ const NavBar = () => {
                 </nav>
 
                 <div className="hidden md:flex items-center space-x-6">
-                    <Link to="/Cart" className="hover:underline">Cart</Link>
+                    <CartBtn />
                     {isAuthenticated ? (
                         <>
                             <span className="text-black">{userRole}</span>
