@@ -23,7 +23,7 @@ const CartItem = ({ item, books, onQuantityChange, onRemove }) => {
 
   const handleRemoveItem = () => {
     onRemove(item.productId);
-    decrementTotalQuantity(quantity);
+    decrementTotalQuantity();
   };
 
   const lineTotal = (quantity * book.price).toFixed(2);

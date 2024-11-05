@@ -7,12 +7,11 @@ import { useCart } from '../../context/CartContext';
 const AddToCart = ({ product }) => {
   const { incrementTotalQuantity } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      incrementTotalQuantity();
-    }
+    incrementTotalQuantity();
 
     const token = Cookies.get('token');
     if (token) {
@@ -28,6 +27,10 @@ const AddToCart = ({ product }) => {
       }
       localStorage.setItem('cart', JSON.stringify(cart));
     }
+
+    setIsAdded(true);
+
+    setTimeout(() => setIsAdded(false), 2000);
   };
 
   return (
@@ -41,9 +44,11 @@ const AddToCart = ({ product }) => {
       />
       <button
         onClick={handleAddToCart}
-        className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-transform transform shadow-lg"
+        className={`py-2 px-4 font-semibold rounded-lg shadow-lg transition-transform transform ${isAdded ? 'bg-green-500 text-white' : 'bg-blue-600 text-white hover:bg-blue-700'
+          }`}
+        disabled={isAdded}
       >
-        Add to Cart
+        {isAdded ? 'Added to Cart' : 'Add to Cart'}
       </button>
     </div>
   );

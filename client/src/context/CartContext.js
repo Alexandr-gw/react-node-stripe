@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import cartService from '../store/services/cartServices'; 
+import cartService from '../store/services/cartServices';
+
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
@@ -14,13 +15,12 @@ export const CartProvider = ({ children }) => {
 
         try {
             if (token) {
-                const cartData = await cartService.getCart(); 
-                
-                const uniqueItemsCount = cartData.items.length;
+                const cartData = await cartService.getCart();
+                const uniqueItemsCount = cartData.cart.items.length;
                 setTotalItems(uniqueItemsCount);
             } else {
                 const storedCart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
-                const uniqueItemsCount = storedCart.items.length; 
+                const uniqueItemsCount = storedCart.items.length;
                 setTotalItems(uniqueItemsCount);
             }
         } catch (err) {
@@ -42,7 +42,7 @@ export const CartProvider = ({ children }) => {
         const token = Cookies.get('token');
         if (!token) {
             const cart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
-            cart.totalUniqueItems = totalItems; 
+            cart.totalUniqueItems = totalItems;
             localStorage.setItem('cart', JSON.stringify(cart));
         }
     }, [totalItems]);
