@@ -6,6 +6,7 @@ import { getCart, clearCart, updateCartItem, removeFromCart } from '../../store/
 import { getBooks } from '../../store/actions/actionsBook';
 import LoadingPage from '../LoadingPage/LoadingPage';
 import CheckoutButton from '../CheckoutBtn/CheckoutBtn';
+import { Link } from 'react-router-dom';
 
 const CartPage = () => {
     const dispatch = useDispatch();
@@ -110,7 +111,18 @@ const CartPage = () => {
     }
 
     if (!cart.items || cart.items.length === 0) {
-        return <div className="cart-page-wrapper">Your cart is empty.</div>;
+        return (
+            <div className="flex flex-col items-center justify-center flex-grow text-center p-6 min-h-screen -mt-16 bg-gray-100">
+            <h3 className="text-3xl font-semibold text-gray-800 mb-4">Your Cart is Empty</h3>
+            <Link
+              to="/BooksList"
+              className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+            >
+              Start Shopping
+            </Link>
+          </div>
+          
+        );
     }
     return (
         <div className="max-w-7xl mx-auto p-6 bg-gray-100">

@@ -46,7 +46,7 @@ const NavBar = () => {
     };
 
     return (
-        <header className="bg-yellow-300 relative p-4 z-50 w-4/5 rounded-full mx-auto left-0 right-0">
+        <header className="bg-yellow-300 relative p-2.5 z-50 w-4/5 rounded-full mx-auto left-0 right-0">
             <div className="flex justify-between items-center max-w-7xl mx-auto">
                 <div className="font-bold text-2xl italic text-green-900">
                     <Link to="/">logo</Link>
