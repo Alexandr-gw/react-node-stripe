@@ -15,11 +15,15 @@ const CartItem = ({ item, books, onQuantityChange, onRemove }) => {
   }
 
   const handleQuantityChange = (e) => {
-    const value = Math.max(1, parseInt(e.target.value, 10));
+    const inputValue = e.target.value;
+    const value = inputValue === '' ? 1 : Math.max(1, parseInt(inputValue, 10));
     const previousQuantity = quantity;
+
     setQuantity(value);
-    onQuantityChange(item.productId, value, previousQuantity, book.price);
-  };
+    if (!isNaN(value)) {
+        onQuantityChange(item.productId, value, previousQuantity, book.price);
+    }
+};
 
   const handleRemoveItem = () => {
     onRemove(item.productId);

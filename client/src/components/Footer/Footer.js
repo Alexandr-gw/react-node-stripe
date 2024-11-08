@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedin, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { faLinkedin, faXTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
     return (
@@ -18,11 +18,11 @@ const Footer = () => {
                 <div className="w-full md:w-1/3 mb-4 md:mb-0">
                     <h4 className="font-semibold text-lg mb-3">Follow Us</h4>
                     <div className="flex space-x-4">
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400">
+                        <a href="https://www.linkedin.com/in/oleksandrkucenko/" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400">
                             <FontAwesomeIcon icon={faLinkedin} />
                         </a>
                         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400">
-                            <FontAwesomeIcon icon={faTwitter} />
+                            <FontAwesomeIcon icon={faXTwitter} />
                         </a>
                         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400">
                             <FontAwesomeIcon icon={faInstagram} />
